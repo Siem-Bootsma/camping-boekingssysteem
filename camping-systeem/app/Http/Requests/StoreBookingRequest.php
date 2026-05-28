@@ -31,6 +31,42 @@ class StoreBookingRequest extends FormRequest
     }
 
     /**
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'camping_spot_id' => __('camping spot'),
+            'guest_name' => __('name'),
+            'guest_email' => __('email'),
+            'guest_phone' => __('phone'),
+            'start_date' => __('arrival date'),
+            'end_date' => __('departure date'),
+            'party_size' => __('number of guests'),
+            'notes' => __('note'),
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'required' => __('The :attribute field is required.'),
+            'integer' => __('The :attribute must be a number.'),
+            'exists' => __('The selected :attribute is invalid.'),
+            'string' => __('The :attribute must be text.'),
+            'email' => __('The :attribute must be a valid email address.'),
+            'date' => __('The :attribute must be a valid date.'),
+            'after_or_equal' => __('The :attribute must be today or later.'),
+            'after' => __('The :attribute must be after :date.'),
+            'min' => __('The :attribute must be at least :min.'),
+            'max' => __('The :attribute may not be greater than :max.'),
+        ];
+    }
+
+    /**
      * @return list<callable(Validator): void>
      */
     public function after(): array
@@ -44,13 +80,13 @@ class StoreBookingRequest extends FormRequest
                 $campingSpot = CampingSpot::find($this->integer('camping_spot_id'));
 
                 if (! $campingSpot?->is_active) {
-                    $validator->errors()->add('camping_spot_id', 'Deze kampeerplek is niet beschikbaar.');
+                    $validator->errors()->add('camping_spot_id', __('This camping spot is not available.'));
 
                     return;
                 }
 
                 if ($this->integer('party_size') > $campingSpot->capacity) {
-                    $validator->errors()->add('party_size', 'Het aantal gasten past niet op deze kampeerplek.');
+                    $validator->errors()->add('party_size', __('The number of guests does not fit on this camping spot.'));
 
                     return;
                 }
@@ -61,7 +97,7 @@ class StoreBookingRequest extends FormRequest
                     ->exists();
 
                 if (! $isAvailable) {
-                    $validator->errors()->add('start_date', 'Deze kampeerplek is al geboekt in deze periode.');
+                    $validator->errors()->add('start_date', __('This camping spot is already booked in this period.'));
                 }
             },
         ];

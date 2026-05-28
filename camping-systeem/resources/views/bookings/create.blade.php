@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Boek je kampeerplek</title>
+        <title>{{ __('Book your camping spot') }}</title>
 
         @fonts
 
@@ -32,7 +32,7 @@
                             Logo
                         </span>
                         <span class="leading-tight">
-                            <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">Camping</span>
+                            <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">{{ __('Camping') }}</span>
                             <span class="block text-lg font-black text-[#17231a]">De Vuurvlieg</span>
                         </span>
                     </a>
@@ -69,12 +69,12 @@
                         </div>
 
                         <div class="space-y-5">
-                            <p class="text-sm font-bold uppercase tracking-[0.35em] text-[#6f4b25]">Direct boeken</p>
+                            <p class="text-sm font-bold uppercase tracking-[0.35em] text-[#6f4b25]">{{ __('Book directly') }}</p>
                             <h1 class="max-w-3xl text-5xl font-black leading-[0.95] tracking-tight text-[#17231a] sm:text-6xl lg:text-7xl">
-                                Vind je plek tussen bos, duin en vuurplaats.
+                                {{ __('Find your place between forest, dunes and the campfire.') }}
                             </h1>
                             <p class="max-w-xl text-lg leading-8 text-[#415143]">
-                                Kies je datums, filter op groepsgrootte en leg direct een beschikbare kampeerplek vast.
+                                {{ __('Choose your dates, filter by group size and reserve an available camping spot right away.') }}
                             </p>
                         </div>
                     </div>
@@ -82,15 +82,15 @@
                     <div class="grid gap-4 sm:grid-cols-3">
                         <div class="rounded-3xl bg-[#17231a] p-5 text-white shadow-xl">
                             <p class="text-3xl font-black">{{ $campingSpots->count() }}</p>
-                            <p class="mt-1 text-sm text-white/70">plekken zichtbaar</p>
+                            <p class="mt-1 text-sm text-white/70">{{ __('spots visible') }}</p>
                         </div>
                         <div class="rounded-3xl bg-white/55 p-5 shadow-sm ring-1 ring-[#213126]/10 backdrop-blur">
                             <p class="text-3xl font-black">24/7</p>
-                            <p class="mt-1 text-sm text-[#526051]">online aanvraag</p>
+                            <p class="mt-1 text-sm text-[#526051]">{{ __('online request') }}</p>
                         </div>
                         <div class="rounded-3xl bg-[#dd8d3b] p-5 text-[#221407] shadow-xl">
                             <p class="text-3xl font-black">1</p>
-                            <p class="mt-1 text-sm text-[#221407]/70">formulier</p>
+                            <p class="mt-1 text-sm text-[#221407]/70">{{ __('form') }}</p>
                         </div>
                     </div>
                 </div>
@@ -99,29 +99,29 @@
                     <form method="GET" action="{{ route('bookings.create') }}" class="rounded-[2rem] bg-white/70 p-5 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-7">
                         <div class="grid gap-4 md:grid-cols-3">
                             <label class="space-y-2">
-                                <span class="text-sm font-bold">Aankomst</span>
+                                <span class="text-sm font-bold">{{ __('Arrival') }}</span>
                                 <input class="w-full rounded-2xl border border-[#213126]/15 bg-white px-4 py-3 outline-none transition focus:border-[#264f3a] focus:ring-4 focus:ring-[#264f3a]/10" type="date" name="start_date" value="{{ request('start_date') }}">
                             </label>
 
                             <label class="space-y-2">
-                                <span class="text-sm font-bold">Vertrek</span>
+                                <span class="text-sm font-bold">{{ __('Departure') }}</span>
                                 <input class="w-full rounded-2xl border border-[#213126]/15 bg-white px-4 py-3 outline-none transition focus:border-[#264f3a] focus:ring-4 focus:ring-[#264f3a]/10" type="date" name="end_date" value="{{ request('end_date') }}">
                             </label>
 
                             <label class="space-y-2">
-                                <span class="text-sm font-bold">Personen</span>
+                                <span class="text-sm font-bold">{{ __('Guests') }}</span>
                                 <input class="w-full rounded-2xl border border-[#213126]/15 bg-white px-4 py-3 outline-none transition focus:border-[#264f3a] focus:ring-4 focus:ring-[#264f3a]/10" type="number" name="party_size" min="1" value="{{ request('party_size', 2) }}">
                             </label>
                         </div>
 
                         <button class="mt-5 w-full rounded-2xl bg-[#17231a] px-5 py-4 text-sm font-black uppercase tracking-[0.2em] text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#264f3a]" type="submit">
-                            Check beschikbaarheid
+                            {{ __('Check availability') }}
                         </button>
                     </form>
 
                     @if ($hasAvailabilitySearch)
                         <p class="text-sm font-semibold text-[#415143]">
-                            Beschikbare plekken voor {{ request('start_date') }} tot {{ request('end_date') }}.
+                            {{ __('Available spots from :start to :end.', ['start' => request('start_date'), 'end' => request('end_date')]) }}
                         </p>
                     @endif
 
@@ -131,15 +131,15 @@
                                 <div class="flex items-start justify-between gap-4">
                                     <div>
                                         <h2 class="text-xl font-black">{{ $campingSpot->name }}</h2>
-                                        <p class="mt-2 text-sm leading-6 text-[#526051]">{{ $campingSpot->description ?? 'Rustige kampeerplek met genoeg ruimte voor je tent of caravan.' }}</p>
+                                        <p class="mt-2 text-sm leading-6 text-[#526051]">{{ $campingSpot->description ?? __('Quiet camping spot with enough room for your tent or caravan.') }}</p>
                                     </div>
-                                    <span class="rounded-full bg-[#d9edc8] px-3 py-1 text-xs font-black text-[#264f3a]">{{ $campingSpot->capacity }} pers.</span>
+                                    <span class="rounded-full bg-[#d9edc8] px-3 py-1 text-xs font-black text-[#264f3a]">{{ __(':count guests', ['count' => $campingSpot->capacity]) }}</span>
                                 </div>
                             </article>
                         @empty
                             <div class="md:col-span-2 rounded-[1.75rem] bg-white/65 p-6 text-center shadow-sm ring-1 ring-[#213126]/10 backdrop-blur">
-                                <h2 class="text-xl font-black">Geen plekken gevonden</h2>
-                                <p class="mt-2 text-sm text-[#526051]">Probeer een andere periode of een kleinere groepsgrootte.</p>
+                                <h2 class="text-xl font-black">{{ __('No spots found') }}</h2>
+                                <p class="mt-2 text-sm text-[#526051]">{{ __('Try another period or a smaller group size.') }}</p>
                             </div>
                         @endforelse
                     </div>
@@ -148,24 +148,24 @@
                         @csrf
 
                         <div class="mb-6">
-                            <p class="text-sm font-bold uppercase tracking-[0.3em] text-[#f2d29f]">Reserveer</p>
-                            <h2 class="mt-2 text-3xl font-black">Maak je boeking definitief</h2>
+                            <p class="text-sm font-bold uppercase tracking-[0.3em] text-[#f2d29f]">{{ __('Reserve') }}</p>
+                            <h2 class="mt-2 text-3xl font-black">{{ __('Finalize your booking') }}</h2>
                         </div>
 
                         @if ($errors->any())
                             <div class="mb-5 rounded-2xl bg-[#f8c76b] p-4 text-sm font-semibold text-[#221407]">
-                                Controleer de gemarkeerde velden en probeer opnieuw.
+                                {{ __('Check the highlighted fields and try again.') }}
                             </div>
                         @endif
 
                         <div class="grid gap-4 md:grid-cols-2">
                             <label class="space-y-2 md:col-span-2">
-                                <span class="text-sm font-bold">Kampeerplek</span>
+                                <span class="text-sm font-bold">{{ __('Camping spot') }}</span>
                                 <select class="w-full rounded-2xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" name="camping_spot_id" required>
-                                    <option value="">Kies een plek</option>
+                                    <option value="">{{ __('Choose a spot') }}</option>
                                     @foreach ($campingSpots as $campingSpot)
                                         <option value="{{ $campingSpot->id }}" @selected((int) old('camping_spot_id') === $campingSpot->id)>
-                                            {{ $campingSpot->name }} - max. {{ $campingSpot->capacity }} personen
+                                            {{ __(':name - max. :count guests', ['name' => $campingSpot->name, 'count' => $campingSpot->capacity]) }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -175,7 +175,7 @@
                             </label>
 
                             <label class="space-y-2">
-                                <span class="text-sm font-bold">Naam</span>
+                                <span class="text-sm font-bold">{{ __('Name') }}</span>
                                 <input class="w-full rounded-2xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="text" name="guest_name" value="{{ old('guest_name') }}" required>
                                 @error('guest_name')
                                     <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
@@ -183,7 +183,7 @@
                             </label>
 
                             <label class="space-y-2">
-                                <span class="text-sm font-bold">E-mail</span>
+                                <span class="text-sm font-bold">{{ __('Email') }}</span>
                                 <input class="w-full rounded-2xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="email" name="guest_email" value="{{ old('guest_email') }}" required>
                                 @error('guest_email')
                                     <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
@@ -191,7 +191,7 @@
                             </label>
 
                             <label class="space-y-2">
-                                <span class="text-sm font-bold">Telefoon</span>
+                                <span class="text-sm font-bold">{{ __('Phone') }}</span>
                                 <input class="w-full rounded-2xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="text" name="guest_phone" value="{{ old('guest_phone') }}">
                                 @error('guest_phone')
                                     <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
@@ -199,7 +199,7 @@
                             </label>
 
                             <label class="space-y-2">
-                                <span class="text-sm font-bold">Personen</span>
+                                <span class="text-sm font-bold">{{ __('Guests') }}</span>
                                 <input class="w-full rounded-2xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="number" name="party_size" min="1" value="{{ old('party_size', request('party_size', 2)) }}" required>
                                 @error('party_size')
                                     <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
@@ -207,7 +207,7 @@
                             </label>
 
                             <label class="space-y-2">
-                                <span class="text-sm font-bold">Aankomst</span>
+                                <span class="text-sm font-bold">{{ __('Arrival') }}</span>
                                 <input class="w-full rounded-2xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="date" name="start_date" value="{{ old('start_date', request('start_date')) }}" required>
                                 @error('start_date')
                                     <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
@@ -215,7 +215,7 @@
                             </label>
 
                             <label class="space-y-2">
-                                <span class="text-sm font-bold">Vertrek</span>
+                                <span class="text-sm font-bold">{{ __('Departure') }}</span>
                                 <input class="w-full rounded-2xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="date" name="end_date" value="{{ old('end_date', request('end_date')) }}" required>
                                 @error('end_date')
                                     <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
@@ -223,7 +223,7 @@
                             </label>
 
                             <label class="space-y-2 md:col-span-2">
-                                <span class="text-sm font-bold">Opmerking</span>
+                                <span class="text-sm font-bold">{{ __('Note') }}</span>
                                 <textarea class="min-h-28 w-full rounded-2xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" name="notes">{{ old('notes') }}</textarea>
                                 @error('notes')
                                     <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
@@ -232,7 +232,7 @@
                         </div>
 
                         <button class="mt-6 w-full rounded-2xl bg-[#f8c76b] px-5 py-4 text-sm font-black uppercase tracking-[0.2em] text-[#17231a] shadow-lg transition hover:-translate-y-0.5 hover:bg-[#ffd982]" type="submit">
-                            Boeking plaatsen
+                            {{ __('Place booking') }}
                         </button>
                     </form>
                 </div>
