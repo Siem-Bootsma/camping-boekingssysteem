@@ -26,10 +26,10 @@
             <div class="absolute left-1/2 top-24 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#264f3a]/10 blur-3xl"></div>
 
             <header class="w-full px-4 pt-4 sm:px-6 lg:px-8">
-                <nav class="flex w-full flex-col gap-4 rounded-[2rem] border border-[#213126]/10 bg-white/60 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
+                <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white/60 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
                     <a href="{{ route('bookings.create') }}" class="flex items-center gap-3 rounded-2xl px-2 py-1 transition hover:bg-white/55 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">
                         <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
-                            Logo
+                            <img src="https://www.google.nl/url?sa=t&source=web&rct=j&url=https%3A%2F%2Fnl.dreamstime.com%2Fgrappig-personage-tekenfilmstijl-insect-image225747970&ved=0CBYQjRxqFwoTCKiuybr425QDFQAAAAAdAAAAABAl&opi=89978449" alt="Logo" class="h-6 w-6 object-contain">
                         </span>
                         <span class="leading-tight">
                             <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">{{ __('Camping') }}</span>
@@ -38,8 +38,8 @@
                     </a>
 
                     <div class="flex flex-wrap items-center gap-2 text-sm font-black text-[#213126]">
-                        <a href="{{ route('bookings.create') }}" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Home') }}</a>
-                        <a href="#boeken" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Book') }}</a>
+                        <a href="/" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Home') }}</a>
+                        <a href="/boeking" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Book') }}</a>
                         <a href="#contact" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Contact') }}</a>
                         <a href="#info" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Info') }}</a>
                     </div>
@@ -96,7 +96,7 @@
                 </div>
 
                 <div id="boeken" class="scroll-mt-32 space-y-6">
-                    <form method="GET" action="{{ route('bookings.create') }}" class="rounded-[2rem] bg-white/70 p-5 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-7">
+                    <form method="GET" action="{{ route('bookings.create') }}" class="rounded-4xl bg-white/70 p-5 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-7">
                         <div class="grid gap-4 md:grid-cols-3">
                             <label class="space-y-2">
                                 <span class="text-sm font-bold">{{ __('Arrival') }}</span>
@@ -144,7 +144,7 @@
                         @endforelse
                     </div>
 
-                    <form id="contact" method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-[2rem] bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
+                    <form id="contact" method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-4xl bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
                         @csrf
 
                         <div class="mb-6">
