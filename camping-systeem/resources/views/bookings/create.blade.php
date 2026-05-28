@@ -13,15 +13,59 @@
         @endif
     </head>
     <body class="min-h-screen bg-[#f3ead8] text-[#213126] antialiased">
-        <main class="relative isolate overflow-hidden">
+        <main id="home" class="relative isolate overflow-hidden">
+            @php
+                $languageButtons = [
+                    'de' => 'Deutsch',
+                    'nl' => 'Nederlands',
+                    'en' => 'English',
+                ];
+            @endphp
+
             <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_8%,#f8c76b_0,transparent_28%),radial-gradient(circle_at_86%_18%,#6fa28b_0,transparent_24%),linear-gradient(135deg,#fff7e4_0%,#d8ead8_54%,#f2d29f_100%)]"></div>
             <div class="absolute left-1/2 top-24 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#264f3a]/10 blur-3xl"></div>
 
+            <header class="w-full px-4 pt-4 sm:px-6 lg:px-8">
+                <nav class="flex w-full flex-col gap-4 rounded-[2rem] border border-[#213126]/10 bg-white/60 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
+                    <a href="{{ route('bookings.create') }}" class="flex items-center gap-3 rounded-2xl px-2 py-1 transition hover:bg-white/55 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">
+                        <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
+                            Logo
+                        </span>
+                        <span class="leading-tight">
+                            <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">Camping</span>
+                            <span class="block text-lg font-black text-[#17231a]">De Vuurvlieg</span>
+                        </span>
+                    </a>
+
+                    <div class="flex flex-wrap items-center gap-2 text-sm font-black text-[#213126]">
+                        <a href="{{ route('bookings.create') }}" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Home') }}</a>
+                        <a href="#boeken" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Book') }}</a>
+                        <a href="#contact" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Contact') }}</a>
+                        <a href="#info" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Info') }}</a>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2" aria-label="{{ __('Language choice') }}">
+                        @foreach ($languageButtons as $locale => $label)
+                            <a
+                                href="{{ route('locale.update', $locale) }}"
+                                @class([
+                                    'rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.16em] shadow-sm transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15',
+                                    'bg-[#17231a] text-white hover:bg-[#264f3a]' => app()->getLocale() === $locale,
+                                    'border border-[#213126]/10 bg-white/70 text-[#213126] hover:bg-[#f8c76b]' => app()->getLocale() !== $locale,
+                                ])
+                            >
+                                {{ $label }}
+                            </a>
+                        @endforeach
+                    </div>
+                </nav>
+            </header>
+
             <section class="mx-auto grid min-h-screen w-full max-w-7xl gap-10 px-6 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-14">
-                <div class="flex flex-col justify-between gap-10">
+                <div id="info" class="flex scroll-mt-32 flex-col justify-between gap-10">
                     <div class="space-y-8">
                         <div class="inline-flex w-fit items-center rounded-full border border-[#213126]/15 bg-white/45 px-4 py-2 text-sm font-semibold shadow-sm backdrop-blur">
-                            Camping Stickman
+                            Camping De Vuurvlieg
                         </div>
 
                         <div class="space-y-5">
@@ -51,7 +95,7 @@
                     </div>
                 </div>
 
-                <div class="space-y-6">
+                <div id="boeken" class="scroll-mt-32 space-y-6">
                     <form method="GET" action="{{ route('bookings.create') }}" class="rounded-[2rem] bg-white/70 p-5 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-7">
                         <div class="grid gap-4 md:grid-cols-3">
                             <label class="space-y-2">
@@ -100,7 +144,7 @@
                         @endforelse
                     </div>
 
-                    <form method="POST" action="{{ route('bookings.store') }}" class="rounded-[2rem] bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
+                    <form id="contact" method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-[2rem] bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
                         @csrf
 
                         <div class="mb-6">
