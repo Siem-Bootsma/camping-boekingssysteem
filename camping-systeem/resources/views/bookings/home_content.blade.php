@@ -13,7 +13,7 @@
     @endif
 </head>
 <body class="min-h-screen bg-[#f3ead8] text-[#213126] antialiased">
-<main id="home" class="relative isolate overflow-hidden">
+<main id="home" class="relative isolate overflow-hidden pt-[66vh] md:pt-[50vh]">
     @php
         $languageButtons = $languageButtons ?? [
             'de' => 'Deutsch',
@@ -22,15 +22,15 @@
         ];
     @endphp
 
-        <!-- Background image (brought forward) -->
-    <div class="absolute inset-0 -z-10 bg-cover bg-center" style="background-image: url('{{ asset('images/Kampvuur-avond.jpg') }}');"></div>
-    <!-- Gradient/overlay moved behind the image -->
+        <!-- Background image (full width: left to right) -->
+    <div class="absolute left-0 right-0 top-0 -z-10 w-full h-2/4 bg-cover bg-center" style="background-image: url('{{ asset('images/Kampvuur-avond.jpg') }}');"></div>
+    <!-- Gradient/overlay moved behind the image (full background) -->
 
     <div class="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_12%_8%,#f8c76b_0,transparent_28%),radial-gradient(circle_at_86%_18%,#6fa28b_0,transparent_24%),linear-gradient(135deg,#fff7e4_0%,#d8ead8_54%,#f2d29f_100%)]"></div>
     <div class="absolute left-1/2 top-24 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#264f3a]/10 blur-3xl"></div>
 
-    <header class="w-full px-4 pt-4 sm:px-6 lg:px-8">
-        <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white/60 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
+    <header class="w-full px-4 sm:px-6 lg:px-8 fixed top-5 left-0 right-0 z-50">
+        <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white/70 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
             <a href="{{ route('home') }}" class="flex items-center gap-3 rounded-2xl px-2 py-1 transition hover:bg-white/55 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">
                         <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
                             <img src="https://www.google.nl/url?sa=t&source=web&rct=j&url=https%3A%2F%2Fnl.dreamstime.com%2Fgrappig-personage-tekenfilmstijl-insect-image225747970&ved=0CBYQjRxqFwoTCKiuybr425QDFQAAAAAdAAAAABAl&opi=89978449" alt="Logo" class="h-6 w-6 object-contain">
@@ -68,9 +68,7 @@
     <section class="mx-auto grid min-h-screen w-full max-w-7xl gap-10 px-6 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-14">
         <div id="info" class="flex scroll-mt-32 flex-col justify-between gap-10">
             <div class="space-y-8">
-                <div class="inline-flex w-fit items-center rounded-full border border-[#213126]/15 bg-white/45 px-4 py-2 text-sm font-semibold shadow-sm backdrop-blur">
-                    Camping De Vuurvlieg
-                </div>
+
 
                 <div class="space-y-5">
                     <p class="text-sm font-bold uppercase tracking-[0.35em] text-[#6f4b25]"></p>
