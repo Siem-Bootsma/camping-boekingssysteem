@@ -11,7 +11,7 @@
 /* Fallback/background styles for #home. The actual hero image is set in the Blade template
    via an absolute .-z-20 div because we want overlays/gradients above it. */
 #home {
-    background-image: url('/public/images/Kampvuur-avond.jpg');
+    background-image: url('/images/Kampvuur-avond.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
