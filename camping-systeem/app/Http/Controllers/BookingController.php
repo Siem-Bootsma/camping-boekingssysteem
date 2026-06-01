@@ -36,7 +36,7 @@ class BookingController extends Controller
     {
         $booking = $createBooking->execute($request->validated());
 
-        return redirect()->route('bookings.show', $booking);;;
+        return redirect()->route('bookings.show', $booking);
     }
 
     public function show(Booking $booking): View
