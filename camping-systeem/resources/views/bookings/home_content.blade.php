@@ -9,19 +9,11 @@
     @fonts
 
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite('resources/css/app.css')
     @endif
 </head>
 <body class="min-h-screen bg-[#f3ead8] text-[#213126] antialiased">
 <main id="home" class="relative isolate overflow-hidden">
-    @php
-        $languageButtons = $languageButtons ?? [
-            'de' => 'Deutsch',
-            'nl' => 'Nederlands',
-            'en' => 'English',
-        ];
-    @endphp
-
     <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_8%,#f8c76b_0,transparent_28%),radial-gradient(circle_at_86%_18%,#6fa28b_0,transparent_24%),linear-gradient(135deg,#fff7e4_0%,#d8ead8_54%,#f2d29f_100%)]"></div>
     <div class="absolute left-1/2 top-24 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#264f3a]/10 blur-3xl"></div>
 
@@ -100,4 +92,3 @@
 </main>
 </body>
 </html>
-

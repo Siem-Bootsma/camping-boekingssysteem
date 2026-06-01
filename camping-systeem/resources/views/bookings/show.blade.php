@@ -9,7 +9,7 @@
         @fonts
 
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
+            @vite('resources/css/app.css')
         @endif
     </head>
     <body class="min-h-screen bg-[#f3ead8] text-[#213126] antialiased">
