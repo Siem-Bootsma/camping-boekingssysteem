@@ -39,6 +39,28 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Stick to existing directory structure; don't create new base folders without approval.
 - Do not change the application's dependencies without approval.
 
+## Project Scope
+
+- The Laravel application is inside `camping-systeem/`.
+- Use `camping-systeem/composer.json`, `camping-systeem/package.json`, and `camping-systeem/routes/web.php` for framework and script references.
+- The top-level workspace also contains `header&footer.php`, but most development work belongs in `camping-systeem/`.
+
+## Build & Test Commands
+
+- Use `composer run dev` from `camping-systeem/` for local development.
+- Use `npm run dev` or `npm run build` for Vite asset workflows.
+- Run tests with `composer run test` or `php artisan test --compact` from `camping-systeem/`.
+- After modifying PHP files, run `vendor/bin/pint --dirty --format agent` before finalizing changes.
+
+## Application Notes
+
+- Booking flow is implemented with `App\Http\Controllers\BookingController`, `App\Actions\CreateBooking`, and `App\Http\Requests\StoreBookingRequest`.
+- Use named routes: `bookings.create`, `bookings.store`, `bookings.show`, and `locale.update`.
+- Locale switching uses `App\Http\Middleware\SetLocale` and translation files in `lang/{nl,en,de}.json`.
+- Views are under `resources/views/bookings/` and styles in `resources/css/app.css`.
+- The `CampingSpot` model is the primary availability source, with scope-based filters for active and available spots.
+- Prefer Laravel helpers like `route()`, `__()`, and form request validation.
+
 ## Frontend Bundling
 
 - If the user doesn't see a frontend change reflected in the UI, it could mean they need to run `npm run build`, `npm run dev`, or `composer run dev`. Ask them.
