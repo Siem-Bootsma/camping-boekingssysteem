@@ -42,8 +42,6 @@
             <div class="flex flex-wrap items-center gap-2 text-sm font-black text-[#213126]">
                 <a href="/" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Home') }}</a>
                 <a href="{{ route('bookings.create') }}" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Book') }}</a>
-                <a href="{{ route('bookings.create') }}#contact" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Contact') }}</a>
-                <a href="{{ route('bookings.create') }}#info" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Info') }}</a>
             </div>
 
             <div class="flex flex-wrap items-center gap-2" aria-label="{{ __('Language choice') }}">
@@ -68,7 +66,7 @@
             </div>
         </nav>
     </header>
-    
+
     <section class="mx-auto grid min-h-[150vh] w-full max-w-9xl gap-6 px-6 py-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-10 pb-96">
         <div id="home" class="flex scroll-mt-32 flex-col justify-between gap-10 -mt-85">
             <div class="space-y-8">
@@ -109,18 +107,6 @@
             </div>
         </div>
     </section>
-    <footer id="contact" class="bg-[#17231a] text-white py-12 px-6 lg:px-10">
-        <div class="mx-auto max-w-7xl">
-            <h2 class="text-3xl font-bold mb-6">{{ __('Contact') }}</h2>
-            <p class="mb-4">{{ __('Voor vragen of reserveringen, neem contact met ons op via:') }}</p>
-            <ul class="space-y-2">
-                <li><strong>{{ __('E-mail:') }}</strong>  info@campingdevuurvlieg.nl</li>
-                <li><strong>{{ __('Telefoon:') }}</strong> +31 6 515 95 320</li>
-                <li><strong>{{__('Locatie:')}}</strong> De Holle Poarte 2, 8754 HC Makkum</li>
-                <li><strong>{{__('Openingstijden:')}}</strong> Maandag - Zondag 9:00 tot 19:00</li>
-            </ul>
-        </div>
-    </footer>
 </main>
 </body>
 </html>
