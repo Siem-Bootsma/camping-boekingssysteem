@@ -52,8 +52,7 @@
                             'rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.16em] shadow-sm transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15',
                             'bg-[#17231a] text-white hover:bg-[#264f3a]' => app()->getLocale() === $locale,
                             'border border-[#213126]/10 bg-white/70 text-[#213126] hover:bg-[#f8c76b]' => app()->getLocale() !== $locale,
-                        ])
-                    >
+                        ])>
                         {{ $label }}
                     </a>
                 @endforeach
@@ -76,16 +75,17 @@
                     </p>
                 </div>
             </div>
+        <div id="home" class="flex scroll-mt-32 flex-col justify-between gap-10 -mt-85">
+            <div class="space-y-8">
+                
 
 
+
+            </div>
+        </div>
 
 
             <form></form>
-
-                <div class="mb-6">
-                    <p class="text-sm font-bold uppercase tracking-[0.3em] text-[#f2d29f]"></p>
-                    <h2 class="mt-2 text-3xl font-black"></h2>
-                </div>
 
                 @if ($errors->any())
                     <div class="mb-5 rounded-2xl bg-[#f8c76b] p-4 text-sm font-semibold text-[#221407]">
@@ -100,6 +100,18 @@
             </div>
         </div>
     </section>
+    <footer id="contact" class="bg-[#17231a] text-white py-12 px-6 lg:px-10">
+        <div class="mx-auto max-w-7xl">
+            <h2 class="text-3xl font-bold mb-6">{{ __('Contact') }}</h2>
+            <p class="mb-4">{{ __('Voor vragen of reserveringen, neem contact met ons op via:') }}</p>
+            <ul class="space-y-2">
+                <li><strong>{{ __('E-mail:') }}</strong>  info@campingdevuurvlieg.nl</li>
+                <li><strong>{{ __('Telefoon:') }}</strong> +31 6 515 95 320</li>
+                <li><strong>{{__('Locatie:')}}</strong> De Holle Poarte 2, 8754 HC Makkum</li>
+                <li><strong>{{__('Openingstijden:')}}</strong> Maandag - Zondag 9:00 tot 19:00</li>
+            </ul>
+        </div>
+    </footer>
 </main>
 </body>
 </html>
