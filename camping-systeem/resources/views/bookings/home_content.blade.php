@@ -63,7 +63,7 @@
         </nav>
     </header>
 
-    <section class="mx-auto grid min-h-screen w-full max-w-9xl gap-6 px-6 py-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-10">
+    <section class="mx-auto grid min-h-[150vh] w-full max-w-9xl gap-6 px-6 py-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-10 pb-96">
         <div id="home" class="flex scroll-mt-32 flex-col justify-between gap-10 -mt-85">
             <div class="space-y-8">
                 <h1 class="max-w-3xl text-5xl font-black leading-[0.95] tracking-tight text-[#17231a] sm:text-6xl lg:text-7xl bg-white/70 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur rounded-xl">
@@ -73,8 +73,9 @@
                 <div class="space-y-6">
                     <p class="text-sm font-bold uppercase tracking-[0.35em] text-[#6f4b25]"></p>
 
-                    <p class="max-w-9xl text-lg leading-8 text-[#415143] bg-gray-50/70 p-4 shadow-xl shadow-[#213126]/5 backdrop-blur rounded-xl font-bold">
-                         Waar natuur, rust en gezelligheid samenkomen. Geniet van ruime kampeerplaatsen midden in het groen, met comfortabele faciliteiten voor een ontspannen verblijf. De ideale plek om tot rust te komen of juist actief van de natuur te genieten.                     </p>
+                    <p class="max-w-2xl text-lg leading-8 text-[#415143] bg-gray-50/70 p-4 shadow-xl shadow-[#213126]/5 backdrop-blur rounded-xl font-bold">
+                        Welkom bij Camping De Vuurvlieg, waar natuur, rust en gezelligheid samenkomen. Geniet van ruime kampeerplaatsen midden in het groen, met comfortabele faciliteiten voor een ontspannen verblijf. Op korte afstand ligt het prachtige strand van Makkum aan het IJsselmeer, ideaal om te zwemmen, wandelen, watersporten of te genieten van een mooie zonsondergang. De perfecte plek voor een ontspannen en veelzijdige vakantie.
+                    </p>
                 </div>
             </div>
 
@@ -94,6 +95,11 @@
                     </div>
                 @endif
 
+            <div class="flex justify-center w-screen left-1/2 -translate-x-1/2 relative">
+                <a href="{{ route('bookings.create') }}" class="inline-block rounded-full bg-[#264f3a] px-16 py-4 text-white shadow-lg hover:bg-[#17231a] focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">
+                    Boek nu jouw kampeerplek
+                </a>
+            </div>
         </div>
     </section>
 </main>
