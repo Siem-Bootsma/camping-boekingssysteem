@@ -74,7 +74,7 @@
                     <p class="text-sm font-bold uppercase tracking-[0.35em] text-[#6f4b25]"></p>
 
                     <p class="max-w-2xl text-lg leading-8 text-[#415143] bg-gray-50/70 p-4 shadow-xl shadow-[#213126]/5 backdrop-blur rounded-xl font-bold">
-                        Welkom bij Camping De Vuurvlieg, waar natuur, rust en gezelligheid samenkomen. Geniet van ruime kampeerplaatsen midden in het groen, met comfortabele faciliteiten voor een ontspannen verblijf. Op korte afstand ligt het prachtige strand van Makkum aan het IJsselmeer, ideaal om te zwemmen, wandelen, watersporten of te genieten van een mooie zonsondergang. De perfecte plek voor een ontspannen en veelzijdige vakantie.
+                        Waar natuur, rust en gezelligheid samenkomen. Geniet van ruime kampeerplaatsen midden in het groen, met comfortabele faciliteiten voor een ontspannen verblijf. Op korte afstand ligt het prachtige strand van Makkum aan het IJsselmeer, ideaal om te zwemmen, wandelen, watersporten of te genieten van een mooie zonsondergang. De perfecte plek voor een ontspannen en veelzijdige vakantie.
                     </p>
                 </div>
             </div>
