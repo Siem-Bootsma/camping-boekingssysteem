@@ -59,7 +59,7 @@
                                     'border border-[#213126]/10 bg-white/70 text-[#213126] hover:bg-[#f8c76b]' => app()->getLocale() !== $locale,
                                 ])
                             >
-                                <img src="{{ asset($flag) }}" alt="{{ $label }}" class="h-5 w-7 object-contain">
+                                <img src="{{ asset($flag) }}" alt="{{ $label }}" class="h-7 w-9 object-contain">
                             </a>
                         @endforeach
                     </div>
