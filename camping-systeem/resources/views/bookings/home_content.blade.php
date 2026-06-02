@@ -54,8 +54,7 @@
                             'rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.16em] shadow-sm transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15',
                             'bg-[#17231a] text-white hover:bg-[#264f3a]' => app()->getLocale() === $locale,
                             'border border-[#213126]/10 bg-white/70 text-[#213126] hover:bg-[#f8c76b]' => app()->getLocale() !== $locale,
-                        ])
-                    >
+                        ])>
                         {{ $label }}
                     </a>
                 @endforeach
@@ -80,7 +79,7 @@
             </div>
         <div id="home" class="flex scroll-mt-32 flex-col justify-between gap-10 -mt-85">
             <div class="space-y-8">
-                <span></span>
+                
 
 
 
