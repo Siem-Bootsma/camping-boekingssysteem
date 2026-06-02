@@ -30,7 +30,6 @@
         <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white/70 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
             <a href="{{ route('home') }}" class="flex items-center gap-3 rounded-2xl px-2 py-1 transition hover:bg-white/55 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">
                         <span class="grid size-14 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
-                            <img src="images/vuurvlieg.jpg" alt="Logo" class="h-10 w-10 object-contain">
                         </span>
                 <span class="leading-tight">
                             <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">{{ __('Camping') }}</span>
