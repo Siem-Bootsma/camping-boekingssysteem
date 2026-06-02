@@ -62,13 +62,13 @@
                             'bg-[#17231a] text-white hover:bg-[#264f3a]' => app()->getLocale() === $locale,
                             'border border-[#213126]/10 bg-white/70 text-[#213126] hover:bg-[#f8c76b]' => app()->getLocale() !== $locale,
                         ])>
-                        <img src="{{ asset($flag) }}" alt="{{ $label }}" class="h-5 w-7 object-contain">
+                        <img src="{{ asset($flag) }}" alt="{{ $label }}" class="h-7 w-9 object-contain">
                     </a>
                 @endforeach
             </div>
         </nav>
     </header>
-
+    
     <section class="mx-auto grid min-h-[150vh] w-full max-w-9xl gap-6 px-6 py-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-10 pb-96">
         <div id="home" class="flex scroll-mt-32 flex-col justify-between gap-10 -mt-85">
             <div class="space-y-8">
