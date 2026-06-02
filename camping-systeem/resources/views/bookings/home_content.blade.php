@@ -22,9 +22,7 @@
         ];
     @endphp
 
-        <!-- Background image (full width: left to right) -->
     <div class="absolute left-0 right-0 top-0 -z-10 w-full h-2/4 bg-cover bg-center" style="background-image: url('{{ asset('images/Kampvuur-avond.jpg') }}');"></div>
-    <!-- Gradient/overlay moved behind the image (full background) -->
 
     <div class="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_12%_8%,#f8c76b_0,transparent_28%),radial-gradient(circle_at_86%_18%,#6fa28b_0,transparent_24%),linear-gradient(135deg,#fff7e4_0%,#d8ead8_54%,#f2d29f_100%)]"></div>
     <div class="absolute left-1/2 top-24 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#264f3a]/10 blur-3xl"></div>
@@ -65,19 +63,18 @@
         </nav>
     </header>
 
-    <section class="mx-auto grid min-h-screen w-full max-w-7xl gap-10 px-6 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-14">
-        <div id="info" class="flex scroll-mt-32 flex-col justify-between gap-10">
+    <section class="mx-auto grid min-h-screen w-full max-w-9xl gap-6 px-6 py-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-10">
+        <div id="home" class="flex scroll-mt-32 flex-col justify-between gap-10 -mt-85">
             <div class="space-y-8">
+                <h1 class="max-w-3xl text-5xl font-black leading-[0.95] tracking-tight text-[#17231a] sm:text-6xl lg:text-7xl bg-white/70 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur rounded-xl">
+                    Welkom bij Camping De Vuurvlieg
+                </h1>
 
-
-                <div class="space-y-5">
+                <div class="space-y-6">
                     <p class="text-sm font-bold uppercase tracking-[0.35em] text-[#6f4b25]"></p>
-                    <h1 class="max-w-3xl text-5xl font-black leading-[0.95] tracking-tight text-[#17231a] sm:text-6xl lg:text-7xl">
 
-                    </h1>
-                    <p class="max-w-xl text-lg leading-8 text-[#415143]">
-
-                    </p>
+                    <p class="max-w-9xl text-lg leading-8 text-[#415143] bg-gray-50/70 p-4 shadow-xl shadow-[#213126]/5 backdrop-blur rounded-xl font-bold">
+                         Waar natuur, rust en gezelligheid samenkomen. Geniet van ruime kampeerplaatsen midden in het groen, met comfortabele faciliteiten voor een ontspannen verblijf. De ideale plek om tot rust te komen of juist actief van de natuur te genieten.                     </p>
                 </div>
             </div>
 
