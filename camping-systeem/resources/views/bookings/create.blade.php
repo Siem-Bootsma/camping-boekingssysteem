@@ -40,8 +40,6 @@
                     <div class="flex flex-wrap items-center gap-2 text-sm font-black text-[#213126]">
                         <a href="/" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Home') }}</a>
                         <a href="{{ route('bookings.create') }}" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Boek') }}</a>
-                        <a href="#contact" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Contact') }}</a>
-                        <a href="#info" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Info') }}</a>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-2" aria-label="{{ __('Language choice') }}">
@@ -62,7 +60,7 @@
             </header>
 
             <section class="mx-auto grid min-h-screen w-full max-w-7xl gap-10 px-6 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-14">
-                <div id="info" class="flex scroll-mt-32 flex-col justify-between gap-10">
+                <div class="flex scroll-mt-32 flex-col justify-between gap-10">
                     <div class="space-y-8">
                         <div class="inline-flex w-fit items-center rounded-full border border-[#213126]/15 bg-white/45 px-4 py-2 text-sm font-semibold shadow-sm backdrop-blur">
                             Camping De Vuurvlieg
@@ -144,7 +142,7 @@
                         @endforelse
                     </div>
 
-                    <form id="contact" method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-4xl bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
+                    <form method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-4xl bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
                         @csrf
 
                         <div class="mb-6">
