@@ -44,15 +44,22 @@
 
                     <div class="flex flex-wrap items-center gap-2" aria-label="{{ __('Language choice') }}">
                         @foreach ($languageButtons as $locale => $label)
+                            @php
+                                $flag = "images/{$locale}.png";
+                                if ($locale === 'nl') $flag = 'images/nederland-vlag.png';
+                                if ($locale === 'en') $flag = 'images/engeland-vlag.png';
+                                if ($locale === 'de') $flag = 'images/duitsland-vlag.png';
+                            @endphp
+
                             <a
                                 href="{{ route('locale.update', $locale) }}"
                                 @class([
-                                    'rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.16em] shadow-sm transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15',
+                                    'rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] shadow-sm transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15 flex items-center gap-2',
                                     'bg-[#17231a] text-white hover:bg-[#264f3a]' => app()->getLocale() === $locale,
                                     'border border-[#213126]/10 bg-white/70 text-[#213126] hover:bg-[#f8c76b]' => app()->getLocale() !== $locale,
                                 ])
                             >
-                                {{ $label }}
+                                <img src="{{ asset($flag) }}" alt="{{ $label }}" class="h-5 w-7 object-contain">
                             </a>
                         @endforeach
                     </div>
