@@ -40,21 +40,26 @@
                     <div class="flex flex-wrap items-center gap-2 text-sm font-black text-[#213126]">
                         <a href="/" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Home') }}</a>
                         <a href="{{ route('bookings.create') }}" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Boek') }}</a>
-                        <a href="#contact" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Contact') }}</a>
-                        <a href="#info" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Info') }}</a>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-2" aria-label="{{ __('Language choice') }}">
                         @foreach ($languageButtons as $locale => $label)
+                            @php
+                                $flag = "images/{$locale}.png";
+                                if ($locale === 'nl') $flag = 'images/nederland-vlag.png';
+                                if ($locale === 'en') $flag = 'images/engeland-vlag.png';
+                                if ($locale === 'de') $flag = 'images/duitsland-vlag.png';
+                            @endphp
+
                             <a
                                 href="{{ route('locale.update', $locale) }}"
                                 @class([
-                                    'rounded-full px-4 py-2 text-xs font-black uppercase tracking-[0.16em] shadow-sm transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15',
+                                    'rounded-full px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] shadow-sm transition hover:-translate-y-0.5 focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15 flex items-center gap-2',
                                     'bg-[#17231a] text-white hover:bg-[#264f3a]' => app()->getLocale() === $locale,
                                     'border border-[#213126]/10 bg-white/70 text-[#213126] hover:bg-[#f8c76b]' => app()->getLocale() !== $locale,
                                 ])
                             >
-                                {{ $label }}
+                                <img src="{{ asset($flag) }}" alt="{{ $label }}" class="h-7 w-9 object-contain">
                             </a>
                         @endforeach
                     </div>
@@ -62,7 +67,7 @@
             </header>
 
             <section class="mx-auto grid min-h-screen w-full max-w-7xl gap-10 px-6 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-14">
-                <div id="info" class="flex scroll-mt-32 flex-col justify-between gap-10">
+                <div class="flex scroll-mt-32 flex-col justify-between gap-10">
                     <div class="space-y-8">
                         <div class="inline-flex w-fit items-center rounded-full border border-[#213126]/15 bg-white/45 px-4 py-2 text-sm font-semibold shadow-sm backdrop-blur">
                             Camping De Vuurvlieg
@@ -144,7 +149,7 @@
                         @endforelse
                     </div>
 
-                    <form id="contact" method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-4xl bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
+                    <form method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-4xl bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
                         @csrf
 
                         <div class="mb-6">
