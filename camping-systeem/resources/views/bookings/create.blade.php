@@ -27,7 +27,7 @@
 
             <header class="w-full px-4 pt-4 sm:px-6 lg:px-8">
                 <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white/60 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
-                    
+
                         <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
                             <img src="images/vuurvlieg.jpg" alt="Logo" class="h-10 w-10 object-contain">
                         </span>
