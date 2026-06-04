@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LocaleController;
@@ -8,9 +7,6 @@ use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/language/{locale}', LocaleController::class)->name('locale.update');
-
-// Auth Routes
-Route::post('/login', [LoginController::class, 'store'])->name('login');
 
 Route::middleware(SetLocale::class)->group(function (): void {
     // Main booking route (English/neutral)
@@ -24,5 +20,5 @@ Route::middleware(SetLocale::class)->group(function (): void {
 });
 
 Route::middleware(SetLocale::class)->group(function (): void {
-    Route::get('/', [HomeController::class, 'index'])->name('inlog');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
 });
