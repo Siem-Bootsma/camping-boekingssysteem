@@ -7,8 +7,8 @@ class Beheerder
     protected string $table = 'inloggegevens';
 
     protected array $fillable = [
-        'e-mailadres',
-        'wachtwoord',
+        'email',
+        'password',
     ];
 
     public static function create(array $array)

@@ -10,16 +10,16 @@ class UserSeeder extends Seeder
 public function run(): void
 {
 
-    $beheerders = [
+    $user = [
                 [
-        'e-mailadres' => 'vuurvlieg@gmail.nl',
-        'wachtwoord' => '123456',
+        'email' => 'vuurvlieg@gmail.com',
+        'password' => 'Admin123',
 ],
 ];
-foreach ($beheerders as $beheerder) {
+foreach ($user as $user) {
         Beheerder::create([
-            'e-mailadres' => $beheerder['e-mailadres'],
-            'wachtwoord' => $beheerder['wachtwoord'],
+            'email' => $user['email'],
+            'password' => $user['password'],
          ]);
         }
     }

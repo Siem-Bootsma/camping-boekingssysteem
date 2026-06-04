@@ -12,17 +12,17 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
 </head>
-<body class="min-h-screen bg-gradient-to-b from-[#f6f0e3] to-[#e9f2ea] text-[#213126] antialiased">
-<main id="login" class="min-h-screen flex items-center justify-center px-6">
-    <div class="relative w-full max-w-lg">
-        <div class="absolute -inset-6 blur-xl opacity-30 bg-[radial-gradient(circle_at_10%_20%,#f8c76b_0,transparent_20%),radial-gradient(circle_at_90%_10%,#6fa28b_0,transparent_20%)] rounded-3xl"></div>
+    <body class="min-h-screen bg-gradient-to-b from-[#f6f0e3] to-[#e9f2ea] text-[#213126] antialiased">
+    <main id="login" class="min-h-screen flex items-center justify-center px-6">
+        <div class="relative w-full max-w-lg">
+            <div class="absolute -inset-6 blur-xl opacity-30 bg-[radial-gradient(circle_at_10%_20%,#f8c76b_0,transparent_20%),radial-gradient(circle_at_90%_10%,#6fa28b_0,transparent_20%)] rounded-3xl"></div>
 
-        <div class="relative bg-white/90 backdrop-blur rounded-3xl shadow-2xl p-8 md:p-12">
-            <div class="flex justify-center mb-6">
+            <div class="relative bg-white/90 backdrop-blur rounded-3xl shadow-2xl p-8 md:p-12">
+                <div class="flex justify-center mb-6">
                 <img src="{{ asset('images/vuurvlieg.jpg') }}" alt="Logo" class="h-12 w-12 object-contain rounded-full shadow" />
-            </div>
+                </div>
 
-            <h1 class="text-2xl md:text-3xl font-black text-center text-[#17231a] mb-6">{{ __('Welkom terug') }}</h1>
+            <h1 class="text-2xl md:text-3xl font-black text-center text-[#17231a] mb-6">{{ __('Inloggen') }}</h1>
 
             @if(session('status'))
                 <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-md text-sm">
@@ -63,8 +63,8 @@
                         <span>{{ __('Onthoud mij') }}</span>
                     </label>
 
-                    @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm text-[#264f3a] hover:underline">{{ __('Wachtwoord vergeten?') }}</a>
+                    @if (Route::has('wachtwoord.vergeten'))
+                  <a href="{{ route('wachtwoord.vergeten') }}" class="text-sm text-[#264f3a] hover:underline">{{ __('Wachtwoord vergeten?') }}</a>
                     @endif
                 </div>
 

@@ -24,5 +24,5 @@ Route::middleware(SetLocale::class)->group(function (): void {
 });
 
 Route::middleware(SetLocale::class)->group(function (): void {
-    Route::get('/', [HomeController::class, 'index'])->name('inlog');
+    Route::get('/', [HomeController::class, 'index'])->name('login');
 });
