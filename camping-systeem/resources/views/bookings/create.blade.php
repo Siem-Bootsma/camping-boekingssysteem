@@ -28,19 +28,21 @@
             <header class="w-full px-4 pt-4 sm:px-6 lg:px-8">
                 <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white/60 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
 
-                        <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
-                            <img src="images/vuurvlieg.jpg" alt="Logo" class="h-10 w-10 object-contain">
-                        </span>
-                        <span class="leading-tight">
-                            <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">{{ __('Camping') }}</span>
-                            <span class="block text-lg font-black text-[#17231a]">De Vuurvlieg</span>
-                        </span>
+                            <div class="flex items-center gap-6">
+                    <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
+                        <img src="images/vuurvlieg.jpg" alt="Logo" class="h-10 w-10 object-contain">
+                    </span>
 
+                                        <span class="leading-tight text-left">
+                        <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">
+                            {{ __('Camping') }}
+                        </span>
+                        <span class="block text-lg font-black text-[#17231a]">
+                            De Vuurvlieg
+                        </span>
+                    </span>
+                            </div>
 
-                    <div class="flex flex-wrap items-center gap-2 text-sm font-black text-[#213126]">
-                        <a href="/" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Home') }}</a>
-                        <a href="{{ route('bookings.create') }}" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Boek') }}</a>
-                    </div>
 
                     <div class="flex flex-wrap items-center gap-2" aria-label="{{ __('Language choice') }}">
                         @foreach ($languageButtons as $locale => $label)
