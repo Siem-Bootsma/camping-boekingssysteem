@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function store(Request $request)
+    /**
+     * Handle an incoming login request.
+     */
+    public function store(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
             'email' => ['required', 'email'],
@@ -18,12 +22,24 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard');
+            // Only allow the configured admin email to stay logged in
+            $adminEmail = env('ADMIN_EMAIL', 'admin@vuurvlieg.test');
+            $user = Auth::user();
+
+            if ($user && $user->email !== $adminEmail) {
+                // logout non-admin users immediately and redirect to home
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return redirect('/');
+            }
+
+            return redirect()->intended('/');
         }
 
         return back()->withErrors([
-            'email' => 'De ingevoerde gegevens zijn incorrect.',
+            'email' => __('auth.failed', [], app()->getLocale()),
         ])->onlyInput('email');
     }
 }
-

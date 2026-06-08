@@ -6,16 +6,10 @@ use App\Models\Booking;
 use App\Models\CampingSpot;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends Factory<Booking>
- */
+
 class BookingFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+
     public function definition(): array
     {
         $startDate = fake()->dateTimeBetween('+1 week', '+2 months');

@@ -37,10 +37,7 @@ class Booking extends Model
         return $this->belongsTo(CampingSpot::class);
     }
 
-    /**
-     * @param  Builder<Booking>  $query
-     * @return Builder<Booking>
-     */
+
     public function scopeOverlapping(Builder $query, CarbonInterface|string $startDate, CarbonInterface|string $endDate): Builder
     {
         return $query
@@ -48,9 +45,7 @@ class Booking extends Model
             ->where('end_date', '>', $startDate);
     }
 
-    /**
-     * @return array<string, string>
-     */
+
     protected function casts(): array
     {
         return [

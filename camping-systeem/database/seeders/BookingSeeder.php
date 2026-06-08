@@ -8,9 +8,7 @@ use Illuminate\Database\Seeder;
 
 class BookingSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
+
     public function run(): void
     {
         CampingSpot::query()->each(function (CampingSpot $campingSpot): void {

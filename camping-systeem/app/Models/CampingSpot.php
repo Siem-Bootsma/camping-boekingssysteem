@@ -26,19 +26,13 @@ class CampingSpot extends Model
         return $this->hasMany(Booking::class);
     }
 
-    /**
-     * @param  Builder<CampingSpot>  $query
-     * @return Builder<CampingSpot>
-     */
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
 
-    /**
-     * @param  Builder<CampingSpot>  $query
-     * @return Builder<CampingSpot>
-     */
+
     public function scopeAvailableBetween(Builder $query, CarbonInterface|string $startDate, CarbonInterface|string $endDate): Builder
     {
         return $query->whereDoesntHave('bookings', function (Builder $query) use ($startDate, $endDate): void {
@@ -48,9 +42,7 @@ class CampingSpot extends Model
         });
     }
 
-    /**
-     * @return array<string, string>
-     */
+
     protected function casts(): array
     {
         return [
