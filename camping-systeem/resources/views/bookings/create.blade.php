@@ -12,7 +12,7 @@
             @vite('resources/css/app.css')
         @endif
     </head>
-    <body class="min-h-screen bg-[#f3ead8] text-[#213126] antialiased">
+    <body class="min-h-screen bg-white">
         <main id="home" class="relative isolate overflow-hidden">
             @php
                 $languageButtons = [
@@ -22,11 +22,11 @@
                 ];
             @endphp
 
-            <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_12%_8%,#f8c76b_0,transparent_28%),radial-gradient(circle_at_86%_18%,#6fa28b_0,transparent_24%),linear-gradient(135deg,#fff7e4_0%,#d8ead8_54%,#f2d29f_100%)]"></div>
+            <div class="absolute inset-0 -z-10 bg-[#F5F5DC]"></div>
             <div class="absolute left-1/2 top-24 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#264f3a]/10 blur-3xl"></div>
 
             <header class="w-full px-4 pt-4 sm:px-6 lg:px-8">
-                <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white/60 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
+                <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
 
                             <div class="flex items-center gap-6">
                     <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
@@ -71,25 +71,13 @@
             <section class="mx-auto grid min-h-screen w-full max-w-7xl gap-10 px-6 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-14">
                 <div class="flex scroll-mt-32 flex-col justify-between gap-10">
                     <div class="space-y-8">
-                        <div class="inline-flex w-fit items-center rounded-full border border-[#213126]/15 bg-white/45 px-4 py-2 text-sm font-semibold shadow-sm backdrop-blur">
-                            Camping De Vuurvlieg
-                        </div>
-
-                        <div class="space-y-5">
-                            <p class="text-sm font-bold uppercase tracking-[0.35em] text-[#6f4b25]">{{ __('Direct boeken') }}</p>
-                            <h1 class="max-w-3xl text-5xl font-black leading-[0.95] tracking-tight text-[#17231a] sm:text-6xl lg:text-7xl">
-                                {{ __('Vind je plek tussen bos, duinen en het kampvuur.') }}
-                            </h1>
-                            <p class="max-w-xl text-lg leading-8 text-[#415143]">
-                                {{ __('Kies je data, filter op groepsgrootte en reserveer direct een beschikbare kampeerplek.') }}
-                            </p>
-                        </div>
+                        <p>hier kunnen de filters miss staan</p>
                     </div>
 
                     <div class="grid gap-4 sm:grid-cols-3">
                         <div class="rounded-3xl bg-[#17231a] p-5 text-white shadow-xl">
                             <p class="text-3xl font-black">{{ $campingSpots->count() }}</p>
-                            <p class="mt-1 text-sm text-white/70">{{ __('zichtbare plekken') }}</p>
+                            <p class="mt-1 text-sm text-white/70">{{ __('beschikbare plekken') }}</p>
                         </div>
                         <div class="rounded-3xl bg-white/55 p-5 shadow-sm ring-1 ring-[#213126]/10 backdrop-blur">
                             <p class="text-3xl font-black">24/7</p>

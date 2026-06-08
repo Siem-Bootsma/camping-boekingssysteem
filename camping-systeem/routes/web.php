@@ -16,10 +16,8 @@ Route::post('/login', [LoginController::class, 'store'])->name('login');
 
 
 Route::middleware(SetLocale::class)->group(function (): void {
-    // Main booking route (English/neutral)
     Route::get('/booking', [BookingController::class, 'create'])->name('bookings.create');
 
-    // Dutch-friendly URL for "Boek nu"
     Route::get('/', [BookingController::class, 'create']);
 
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');

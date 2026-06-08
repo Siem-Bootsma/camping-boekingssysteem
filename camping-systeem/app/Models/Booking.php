@@ -12,9 +12,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
     'camping_spot_id',
-    'guest_name',
-    'guest_email',
-    'guest_phone',
+    'voornaam',
+    'achternaam',
+    'e-mailadres',
+    'telefoonnummer',
     'start_date',
     'end_date',
     'party_size',
