@@ -35,7 +35,7 @@
                             <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">{{ __('Camping') }}</span>
                             <span class="block text-lg font-black text-[#17231a]">De Vuurvlieg</span>
                         </span>
-                    </a>
+
 
                     <div class="flex flex-wrap items-center gap-2 text-sm font-black text-[#213126]">
                         <a href="/" class="rounded-full px-4 py-2 transition hover:bg-[#17231a] hover:text-white focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15">{{ __('Home') }}</a>

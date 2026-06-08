@@ -22,7 +22,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 ## Skills Activation
 
-This project has domain-specific skills available in `**/skills/**`. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
+This project has domain-specific skills configured in `boost.json`: `laravel-best-practices`, `pest-testing`, and `tailwindcss-development`. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck. Use the skills to guide architectural decisions, test writing, and frontend development.
 
 ## Conventions
 
@@ -47,18 +47,21 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 
 ## Build & Test Commands
 
-- Use `composer run dev` from `camping-systeem/` for local development.
-- Use `npm run dev` or `npm run build` for Vite asset workflows.
-- Run tests with `composer run test` or `php artisan test --compact` from `camping-systeem/`.
+- Use `composer run dev` from `camping-systeem/` for local development. This command runs multiple services concurrently: PHP server, queue listener, pail logs, and Vite dev server.
+- Use `npm run dev` or `npm run build` for Vite asset workflows from `camping-systeem/`.
+- Run tests with `composer run test` or `php artisan test --compact` from `camping-systeem/`. Tests use Pest with `RefreshDatabase` trait for feature tests.
 - After modifying PHP files, run `vendor/bin/pint --dirty --format agent` before finalizing changes.
 
 ## Application Notes
 
-- Booking flow is implemented with `App\Http\Controllers\BookingController`, `App\Actions\CreateBooking`, and `App\Http\Requests\StoreBookingRequest`.
+- Booking flow is implemented with `App\Http\Controllers\BookingController`, `App\Actions\CreateBooking`, and `App\Http\Requests\StoreBookingRequest`. Models use scope methods like `scopeActive()` and `scopeAvailableBetween()` for filtering.
+- Home page is rendered by `App\Http\Controllers\HomeController` which displays language selection buttons.
+- Locale switching is handled by `App\Http\Controllers\LocaleController` (single action controller) and `App\Http\Middleware\SetLocale`. The middleware stores locale in session with 'nl' (Dutch) as the default.
 - Use named routes: `bookings.create`, `bookings.store`, `bookings.show`, and `locale.update`.
-- Locale switching uses `App\Http\Middleware\SetLocale` and translation files in `lang/{nl,en,de}.json`.
+- Translation files in `lang/{nl,en,de}.json` support multi-language UI.
 - Views are under `resources/views/bookings/` and styles in `resources/css/app.css`.
-- The `CampingSpot` model is the primary availability source, with scope-based filters for active and available spots.
+- The `CampingSpot` model is the primary availability source, with scope-based filters for active and available spots. The `Booking` model has overlapping date scopes for availability checking.
+- Database factories follow Laravel conventions: `CampingSpotFactory`, `BookingFactory`, `UserFactory` in `database/factories/`. Use factories in tests with `Model::factory()->create()`.
 - Prefer Laravel helpers like `route()`, `__()`, and form request validation.
 
 ## Frontend Bundling
@@ -160,6 +163,11 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - When creating models for tests, use the factories for the models. Check if the factory has custom states that can be used before manually setting up the model.
 - Faker: Use methods such as `$this->faker->word()` or `fake()->randomDigit()`. Follow existing conventions whether to use `$this->faker` or `fake()`.
 - When creating tests, make use of `php artisan make:test [options] {name}` to create a feature test, and pass `--unit` to create a unit test. Most tests should be feature tests.
+- Use `Carbon::setTestNow()` in tests to freeze time for predictable date-based assertions.
+
+## Action Classes
+
+- Use Action classes (`App\\Actions\\*`) to encapsulate business logic separate from controllers. Example: `CreateBooking::execute()` receives validated data and returns the created model. This pattern keeps controllers thin and logic reusable.
 
 ## Vite Error
 

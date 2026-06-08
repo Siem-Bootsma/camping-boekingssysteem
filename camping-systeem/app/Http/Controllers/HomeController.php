@@ -14,7 +14,7 @@ class HomeController extends Controller
             'en' => 'English',
         ];
 
-        return view('bookings.home_content', [
+        return view('bookings.login', [
             'languageButtons' => $languageButtons,
         ]);
     }
