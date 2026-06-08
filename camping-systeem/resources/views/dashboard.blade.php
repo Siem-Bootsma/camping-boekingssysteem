@@ -53,25 +53,22 @@
 
                 <div class="mt-8 rounded-3xl bg-[#17231a] p-6 text-white">
                     <p class="text-lg font-bold">{{ __('Your bookings') }}</p>
-                    <ul class="mt-2 space-y-4"></ul>
+                    <p>{{ __('') }}</p>
                 </div>
             </section>
-        </main>
-        <main class="px-6 py-12">
-            <section class="w-full max-w-2xl rounded-4xl bg-white/75 p-8 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-10">
+
+            <section class="w-full max-w-2xl rounded-4xl bg-white/75 p-8 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-10 mt-12">
                 <h1 class="mt-3 text-4xl font-black tracking-tight text-[#17231a] md:text-5xl">
                     {{ __('Customers') }}
                 </h1>
-
                 <div class="mt-8 rounded-3xl bg-[#17231a] p-6 text-white">
                     <p>{{ __('') }}</p>
                 </div>
             </section>
             <section class="w-full max-w-2xl rounded-4xl bg-white/75 p-8 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-10 mt-12">
                 <h1 class="mt-3 text-4xl font-black tracking-tight text-[#17231a] md:text-5xl">
-                    {{ __('Statistics') }}
+                    {{ __('') }}
                 </h1>
-
                 <div class="mt-8 rounded-3xl bg-[#17231a] p-6 text-white">
                     <p>{{ __('') }}</p>
                 </div>
