@@ -18,13 +18,29 @@
     <header class="w-full px-4 pt-4 sm:px-6 lg:px-8">
         <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white/60 p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
 
+            <div class="flex items-center gap-6">
                     <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
-                            <img src="images/vuurvlieg.jpg" alt="Logo" class="h-10 w-10 object-contain">
+                        <img src="images/vuurvlieg.jpg" alt="Logo" class="h-10 w-10 object-contain">
                     </span>
-                    <span class="leading-tight">
-                            <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">{{ __('Camping') }}</span>
-                            <span class="block text-lg font-black text-[#17231a]">De Vuurvlieg</span>
-                    </span>
+
+                <span class="leading-tight text-left">
+                        <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">
+                            {{ __('Camping') }}
+                        </span>
+                        <span class="block text-lg font-black text-[#17231a]">
+                            De Vuurvlieg
+                        </span>
+                </span>
+                <section>
+                <span class="ml-auto flex items-center gap-4">
+                        <button
+                            onclick="window.location.href='/inlog'"
+                            class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-full">
+                            {{ __('Uitloggen') }}
+                        </button>
+                </span>
+                </section>
+            </div>
         </nav>
     </header>
 
@@ -32,7 +48,7 @@
             <section class="w-full max-w-2xl rounded-4xl bg-white/75 p-8 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-10">
                 <p class="text-sm font-bold uppercase tracking-[0.3em] text-[#6f4b25]">{{ __('Dashboard') }}</p>
                 <h1 class="mt-3 text-4xl font-black tracking-tight text-[#17231a] md:text-5xl">
-                    {{ __('Hallo, :name!', ['name' => auth()->user()->name]) }}
+                    {{ __('Hallo, Admin!') }}
                 </h1>
 
                 <div class="mt-8 rounded-3xl bg-[#17231a] p-6 text-white">
@@ -40,11 +56,26 @@
                     <ul class="mt-2 space-y-4"></ul>
                 </div>
             </section>
+        </main>
+        <main class="px-6 py-12">
+            <section class="w-full max-w-2xl rounded-4xl bg-white/75 p-8 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-10">
+                <h1 class="mt-3 text-4xl font-black tracking-tight text-[#17231a] md:text-5xl">
+                    {{ __('Customers') }}
+                </h1>
 
+                <div class="mt-8 rounded-3xl bg-[#17231a] p-6 text-white">
+                    <p>{{ __('') }}</p>
+                </div>
+            </section>
+            <section class="w-full max-w-2xl rounded-4xl bg-white/75 p-8 shadow-2xl ring-1 ring-[#213126]/10 backdrop-blur md:p-10 mt-12">
+                <h1 class="mt-3 text-4xl font-black tracking-tight text-[#17231a] md:text-5xl">
+                    {{ __('Statistics') }}
+                </h1>
 
-
-
-
+                <div class="mt-8 rounded-3xl bg-[#17231a] p-6 text-white">
+                    <p>{{ __('') }}</p>
+                </div>
+            </section>
         </main>
     </body>
 </html>
