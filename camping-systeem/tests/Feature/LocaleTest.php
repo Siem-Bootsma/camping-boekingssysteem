@@ -18,7 +18,7 @@ test('a visitor can switch the application language', function () {
         ->withSession(['locale' => 'de'])
         ->get(route('bookings.create'))
         ->assertSuccessful()
-        ->assertSee('Finden Sie Ihren Platz zwischen Wald, Duenen und Lagerfeuer.')
+        ->assertSee('Suche filtern')
         ->assertSee('Verfuegbarkeit pruefen');
 });
 

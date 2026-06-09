@@ -29,11 +29,11 @@
                 ];
             @endphp
 
-            <div class="absolute inset-0 -z-10 bg-[#F5F5DC]"></div>
+            <div class="absolute inset-0 -z-10 bg-white"></div>
             <div class="absolute left-1/2 top-24 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[#264f3a]/10 blur-3xl"></div>
 
             <header class="w-full px-4 pt-4 sm:px-6 lg:px-8">
-                <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
+                <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-[#003b73] p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
 
                             <div class="flex items-center gap-6">
                     <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
@@ -76,18 +76,7 @@
             </header>
 
             <section class="mx-auto min-h-screen w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-                <div class="mb-6 rounded-2xl bg-[#003b73] p-5 text-white shadow-xl md:p-7">
-                    <p class="text-sm font-black uppercase tracking-[0.22em] text-[#f8c76b]">{{ __('Book directly') }}</p>
                     <div class="mt-3 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-                        <div>
-                            <h1 class="text-3xl font-black md:text-5xl">{{ __('Book your camping spot') }}</h1>
-                            <p class="mt-2 max-w-2xl text-sm leading-6 text-white/80 md:text-base">{{ __('Find your place between forest, dunes and the campfire.') }}</p>
-                        </div>
-                        <div class="rounded-xl bg-white px-4 py-3 text-[#003b73]">
-                            <p class="text-2xl font-black">{{ $campingSpots->count() }}</p>
-                            <p class="text-xs font-bold uppercase tracking-[0.16em]">{{ __('Available occasions') }}</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div id="boeken" class="grid scroll-mt-32 gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
@@ -219,7 +208,6 @@
                             @forelse ($campingSpots as $campingSpot)
                                 @php
                                     $pricePerNight = (float) $campingSpot->price_per_night;
-                                    $totalPrice = $stayNights ? $pricePerNight * $stayNights : null;
                                 @endphp
 
                                 <a

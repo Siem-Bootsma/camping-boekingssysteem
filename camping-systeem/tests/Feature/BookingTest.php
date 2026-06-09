@@ -68,10 +68,44 @@ test('the booking page lists available camping spots for the selected dates', fu
     $response
         ->assertSuccessful()
         ->assertSee($availableSpot->name)
-        ->assertSee(__('Price per night'))
-        ->assertSee(__('You are booking :name.', ['name' => $availableSpot->name]))
-        ->assertSee('name="camping_spot_id" value="'.$availableSpot->id.'"', false)
+        ->assertSee(__('From'))
+        ->assertSee(__('Click for details and prices'))
+        ->assertSee(e(route('bookings.spots.show', [
+            'campingSpot' => $availableSpot,
+            'start_date' => '2026-07-02',
+            'end_date' => '2026-07-06',
+            'party_size' => 3,
+        ])), false)
+        ->assertDontSee(__('You are booking :name.', ['name' => $availableSpot->name]))
         ->assertDontSee($bookedSpot->name);
+});
+
+test('a guest can open a camping spot detail page before reserving', function () {
+    Carbon::setTestNow('2026-06-01 10:00:00');
+
+    $campingSpot = CampingSpot::factory()->create([
+        'name' => 'Chalet Meerzicht',
+        'capacity' => 5,
+        'price_per_night' => 95,
+        'accommodation_type' => CampingSpot::TYPE_CHALET,
+    ]);
+
+    $response = $this->get(route('bookings.spots.show', [
+        'campingSpot' => $campingSpot,
+        'start_date' => '2026-07-02',
+        'end_date' => '2026-07-06',
+        'party_size' => 3,
+    ]));
+
+    $response
+        ->assertSuccessful()
+        ->assertSee('Chalet Meerzicht')
+        ->assertSee(__('Back to results'))
+        ->assertSee(__('Total estimate'))
+        ->assertSee('name="camping_spot_id" value="'.$campingSpot->id.'"', false)
+        ->assertSee('name="guest_name"', false)
+        ->assertSee('name="start_date" value="2026-07-02"', false)
+        ->assertSee('name="end_date" value="2026-07-06"', false);
 });
 
 test('the booking page filters camping spots by selected price and capacity choices', function () {
