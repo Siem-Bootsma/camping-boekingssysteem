@@ -29,6 +29,7 @@ class InitialSetupSeeder extends Seeder
             'description' => 'Ruime plek dichtbij het bos.',
             'capacity' => 4,
             'price_per_night' => 37.50,
+            'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
             'is_active' => true,
         ]);
 
@@ -38,6 +39,7 @@ class InitialSetupSeeder extends Seeder
             'description' => 'Rustige plek met uitzicht op het meer.',
             'capacity' => 6,
             'price_per_night' => 45,
+            'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
             'is_active' => true,
         ]);
     }

@@ -10,15 +10,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'description', 'capacity', 'price_per_night', 'is_active'])]
+#[Fillable(['name', 'description', 'capacity', 'price_per_night', 'accommodation_type', 'is_active'])]
 class CampingSpot extends Model
 {
     /** @use HasFactory<CampingSpotFactory> */
     use HasFactory;
 
+    public const string TYPE_TENT_PITCH = 'tent_pitch';
+
+    public const string TYPE_CHALET = 'chalet';
+
+    public const string TYPE_STATIC_CARAVAN = 'static_caravan';
+
+    public const string TYPE_CAMPING_PITCH = 'camping_pitch';
+
+    public const array TYPES = [
+        self::TYPE_TENT_PITCH,
+        self::TYPE_CHALET,
+        self::TYPE_STATIC_CARAVAN,
+        self::TYPE_CAMPING_PITCH,
+    ];
+
     protected $attributes = [
         'capacity' => 4,
         'price_per_night' => 35,
+        'accommodation_type' => self::TYPE_CAMPING_PITCH,
         'is_active' => true,
     ];
 
@@ -46,6 +62,7 @@ class CampingSpot extends Model
         return [
             'capacity' => 'integer',
             'price_per_night' => 'decimal:2',
+            'accommodation_type' => 'string',
             'is_active' => 'boolean',
         ];
     }

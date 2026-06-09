@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CampingSpot;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CampingSpotFactory extends Factory
@@ -13,6 +14,7 @@ class CampingSpotFactory extends Factory
             'description' => fake()->sentence(),
             'capacity' => fake()->numberBetween(2, 6),
             'price_per_night' => fake()->randomFloat(2, 25, 75),
+            'accommodation_type' => fake()->randomElement(CampingSpot::TYPES),
             'is_active' => true,
         ];
     }

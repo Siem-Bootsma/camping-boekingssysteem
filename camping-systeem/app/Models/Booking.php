@@ -12,10 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
     'camping_spot_id',
-    'voornaam',
-    'achternaam',
-    'e-mailadres',
-    'telefoonnummer',
+    'guest_name',
+    'guest_email',
+    'guest_phone',
     'start_date',
     'end_date',
     'party_size',
@@ -38,14 +37,12 @@ class Booking extends Model
         return $this->belongsTo(CampingSpot::class);
     }
 
-
     public function scopeOverlapping(Builder $query, CarbonInterface|string $startDate, CarbonInterface|string $endDate): Builder
     {
         return $query
             ->where('start_date', '<', $endDate)
             ->where('end_date', '>', $startDate);
     }
-
 
     protected function casts(): array
     {

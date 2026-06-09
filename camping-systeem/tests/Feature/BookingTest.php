@@ -69,9 +69,42 @@ test('the booking page lists available camping spots for the selected dates', fu
         ->assertSuccessful()
         ->assertSee($availableSpot->name)
         ->assertSee(__('Price per night'))
-        ->assertSee(__('Choose this spot'))
-        ->assertSee('camping_spot_id='.$availableSpot->id, false)
+        ->assertSee(__('You are booking :name.', ['name' => $availableSpot->name]))
+        ->assertSee('name="camping_spot_id" value="'.$availableSpot->id.'"', false)
         ->assertDontSee($bookedSpot->name);
+});
+
+test('the booking page filters camping spots by selected price and capacity choices', function () {
+    CampingSpot::factory()->create([
+        'name' => 'Budgetplaats',
+        'capacity' => 2,
+        'price_per_night' => 35,
+        'accommodation_type' => CampingSpot::TYPE_TENT_PITCH,
+    ]);
+
+    CampingSpot::factory()->create([
+        'name' => 'Luxeplaats',
+        'capacity' => 6,
+        'price_per_night' => 85,
+        'accommodation_type' => CampingSpot::TYPE_CHALET,
+    ]);
+
+    $response = $this->get(route('bookings.create', [
+        'accommodation_types' => [CampingSpot::TYPE_TENT_PITCH],
+        'capacity_ranges' => ['small'],
+        'price_ranges' => ['budget'],
+    ]));
+
+    $response
+        ->assertSuccessful()
+        ->assertSee(__('Filter your search'))
+        ->assertSee(__('Accommodation type'))
+        ->assertSee(__('Price range'))
+        ->assertSee('name="accommodation_types[]" value="'.CampingSpot::TYPE_TENT_PITCH.'" checked', false)
+        ->assertSee('name="price_ranges[]" value="budget" checked', false)
+        ->assertSee('name="capacity_ranges[]" value="small" checked', false)
+        ->assertSee('Budgetplaats')
+        ->assertDontSee('Luxeplaats');
 });
 
 test('a camping spot cannot be double booked for overlapping dates', function () {
