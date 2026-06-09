@@ -20,7 +20,7 @@ class BookingController extends Controller
         $endDate = $this->dateFilter($request->query('end_date'));
         $partySize = $request->integer('party_size') > 0 ? $request->integer('party_size') : null;
         $accommodationTypes = $this->allowedArray($request->array('accommodation_types'), CampingSpot::TYPES);
-        $priceRanges = $this->allowedArray($request->array('price_ranges'), ['budget', 'standard', 'premium']);
+        [$selectedMinPrice, $selectedMaxPrice] = $this->priceRangeFilter($request);
         $capacityRanges = $this->allowedArray($request->array('capacity_ranges'), ['small', 'medium', 'large']);
         $hasDateRange = $startDate && $endDate && $endDate > $startDate;
         $stayNights = $hasDateRange
@@ -31,7 +31,8 @@ class BookingController extends Controller
             ->active()
             ->when($partySize, fn ($query) => $query->where('capacity', '>=', $partySize))
             ->when($accommodationTypes !== [], fn (Builder $query) => $query->whereIn('accommodation_type', $accommodationTypes))
-            ->when($priceRanges !== [], fn (Builder $query) => $this->applyPriceRanges($query, $priceRanges))
+            ->when($selectedMinPrice > 25, fn (Builder $query) => $query->where('price_per_night', '>=', $selectedMinPrice))
+            ->when($selectedMaxPrice < 120, fn (Builder $query) => $query->where('price_per_night', '<=', $selectedMaxPrice))
             ->when($capacityRanges !== [], fn (Builder $query) => $this->applyCapacityRanges($query, $capacityRanges))
             ->when($hasDateRange, fn ($query) => $query->availableBetween($startDate, $endDate))
             ->orderBy('price_per_night')
@@ -43,7 +44,8 @@ class BookingController extends Controller
             'hasAvailabilitySearch' => $hasDateRange,
             'selectedAccommodationTypes' => $accommodationTypes,
             'selectedCapacityRanges' => $capacityRanges,
-            'selectedPriceRanges' => $priceRanges,
+            'selectedMinPrice' => $selectedMinPrice,
+            'selectedMaxPrice' => $selectedMaxPrice,
             'stayNights' => $stayNights,
         ]);
     }
@@ -107,19 +109,23 @@ class BookingController extends Controller
     }
 
     /**
-     * @param  list<string>  $priceRanges
+     * @return array{0: int, 1: int}
      */
-    private function applyPriceRanges(Builder $query, array $priceRanges): Builder
+    private function priceRangeFilter(Request $request): array
     {
-        return $query->where(function (Builder $query) use ($priceRanges): void {
-            foreach ($priceRanges as $priceRange) {
-                match ($priceRange) {
-                    'budget' => $query->orWhere('price_per_night', '<', 40),
-                    'standard' => $query->orWhereBetween('price_per_night', [40, 60]),
-                    'premium' => $query->orWhere('price_per_night', '>', 60),
-                };
-            }
-        });
+        $minPrice = $request->has('min_price')
+            ? min(max($request->integer('min_price'), 25), 120)
+            : 25;
+
+        $maxPrice = $request->has('max_price')
+            ? min(max($request->integer('max_price'), 25), 120)
+            : 120;
+
+        if ($minPrice > $maxPrice) {
+            return [$maxPrice, $minPrice];
+        }
+
+        return [$minPrice, $maxPrice];
     }
 
     /**

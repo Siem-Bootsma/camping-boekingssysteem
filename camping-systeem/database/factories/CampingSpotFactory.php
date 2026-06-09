@@ -15,6 +15,7 @@ class CampingSpotFactory extends Factory
             'capacity' => fake()->numberBetween(2, 6),
             'price_per_night' => fake()->randomFloat(2, 25, 75),
             'accommodation_type' => fake()->randomElement(CampingSpot::TYPES),
+            'image_path' => 'images/kampeerplek.png',
             'is_active' => true,
         ];
     }

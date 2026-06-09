@@ -16,6 +16,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 3,
                 'price_per_night' => 29.50,
                 'accommodation_type' => CampingSpot::TYPE_TENT_PITCH,
+                'image_path' => 'images/tentplaats1.png',
             ],
             [
                 'name' => 'Tentplaats Vuurveld',
@@ -23,6 +24,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 2,
                 'price_per_night' => 27.50,
                 'accommodation_type' => CampingSpot::TYPE_TENT_PITCH,
+                'image_path' => 'images/tentplaatsen2.png',
             ],
             [
                 'name' => 'Tentplaats Dennenhoek',
@@ -30,6 +32,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 4,
                 'price_per_night' => 31,
                 'accommodation_type' => CampingSpot::TYPE_TENT_PITCH,
+                'image_path' => 'images/tentplaatsen3.png',
             ],
             [
                 'name' => 'Tentplaats Heideveld',
@@ -37,6 +40,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 3,
                 'price_per_night' => 33.50,
                 'accommodation_type' => CampingSpot::TYPE_TENT_PITCH,
+                'image_path' => 'images/tentplaats1.png',
             ],
             [
                 'name' => 'Tentplaats Waterkant',
@@ -44,6 +48,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 2,
                 'price_per_night' => 34,
                 'accommodation_type' => CampingSpot::TYPE_TENT_PITCH,
+                'image_path' => 'images/tentplaatsen2.png',
             ],
             [
                 'name' => 'Chalet De Berk',
@@ -51,6 +56,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 4,
                 'price_per_night' => 82.50,
                 'accommodation_type' => CampingSpot::TYPE_CHALET,
+                'image_path' => 'images/chalet1.png',
             ],
             [
                 'name' => 'Chalet Het Meerzicht',
@@ -58,6 +64,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 5,
                 'price_per_night' => 96,
                 'accommodation_type' => CampingSpot::TYPE_CHALET,
+                'image_path' => 'images/chalet2.png',
             ],
             [
                 'name' => 'Chalet De Eik',
@@ -65,6 +72,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 4,
                 'price_per_night' => 88,
                 'accommodation_type' => CampingSpot::TYPE_CHALET,
+                'image_path' => 'images/chalet3.png',
             ],
             [
                 'name' => 'Chalet Duinzicht',
@@ -72,6 +80,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 6,
                 'price_per_night' => 109,
                 'accommodation_type' => CampingSpot::TYPE_CHALET,
+                'image_path' => 'images/chalet1.png',
             ],
             [
                 'name' => 'Chalet Boslicht',
@@ -79,6 +88,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 3,
                 'price_per_night' => 79.50,
                 'accommodation_type' => CampingSpot::TYPE_CHALET,
+                'image_path' => 'images/chalet2.png',
             ],
             [
                 'name' => 'Stacaravan Linde',
@@ -86,6 +96,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 4,
                 'price_per_night' => 68,
                 'accommodation_type' => CampingSpot::TYPE_STATIC_CARAVAN,
+                'image_path' => 'images/stacaravan1.png',
             ],
             [
                 'name' => 'Stacaravan Zonnedek',
@@ -93,6 +104,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 6,
                 'price_per_night' => 74.50,
                 'accommodation_type' => CampingSpot::TYPE_STATIC_CARAVAN,
+                'image_path' => 'images/stacaravan2.png',
             ],
             [
                 'name' => 'Stacaravan Wilg',
@@ -100,6 +112,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 4,
                 'price_per_night' => 71,
                 'accommodation_type' => CampingSpot::TYPE_STATIC_CARAVAN,
+                'image_path' => 'images/stacaravan3.png',
             ],
             [
                 'name' => 'Stacaravan Horizon',
@@ -107,6 +120,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 6,
                 'price_per_night' => 84,
                 'accommodation_type' => CampingSpot::TYPE_STATIC_CARAVAN,
+                'image_path' => 'images/stacaravan1.png',
             ],
             [
                 'name' => 'Stacaravan De Kreek',
@@ -114,6 +128,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 5,
                 'price_per_night' => 78.50,
                 'accommodation_type' => CampingSpot::TYPE_STATIC_CARAVAN,
+                'image_path' => 'images/stacaravan2.png',
             ],
             [
                 'name' => 'Kampeerplek Plek A',
@@ -121,6 +136,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 4,
                 'price_per_night' => 37.50,
                 'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
+                'image_path' => 'images/kampeerplek.png',
             ],
             [
                 'name' => 'Kampeerplek Plek B',
@@ -128,6 +144,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 6,
                 'price_per_night' => 45,
                 'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
+                'image_path' => 'images/Kampvuur-avond.jpg',
             ],
             [
                 'name' => 'Kampeerplek Plek C',
@@ -135,6 +152,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 5,
                 'price_per_night' => 42.50,
                 'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
+                'image_path' => 'images/kampeerplek.png',
             ],
             [
                 'name' => 'Kampeerplek Plek D',
@@ -142,6 +160,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 4,
                 'price_per_night' => 39.50,
                 'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
+                'image_path' => 'images/Kampvuur-avond.jpg',
             ],
             [
                 'name' => 'Kampeerplek Plek E',
@@ -149,6 +168,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 6,
                 'price_per_night' => 49,
                 'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
+                'image_path' => 'images/kampeerplek.png',
             ],
         ];
 

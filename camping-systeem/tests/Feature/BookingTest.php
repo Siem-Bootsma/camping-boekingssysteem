@@ -45,6 +45,7 @@ test('the booking page lists available camping spots for the selected dates', fu
         'name' => 'Bosrand 12',
         'capacity' => 4,
         'price_per_night' => 45,
+        'image_path' => 'images/tentplaats1.png',
     ]);
 
     $bookedSpot = CampingSpot::factory()->create([
@@ -70,6 +71,7 @@ test('the booking page lists available camping spots for the selected dates', fu
         ->assertSee($availableSpot->name)
         ->assertSee(__('From'))
         ->assertSee(__('Click for details and prices'))
+        ->assertSee(asset('images/tentplaats1.png'), false)
         ->assertSee(e(route('bookings.spots.show', [
             'campingSpot' => $availableSpot,
             'start_date' => '2026-07-02',
@@ -88,6 +90,7 @@ test('a guest can open a camping spot detail page before reserving', function ()
         'capacity' => 5,
         'price_per_night' => 95,
         'accommodation_type' => CampingSpot::TYPE_CHALET,
+        'image_path' => 'images/chalet2.png',
     ]);
 
     $response = $this->get(route('bookings.spots.show', [
@@ -102,13 +105,21 @@ test('a guest can open a camping spot detail page before reserving', function ()
         ->assertSee('Chalet Meerzicht')
         ->assertSee(__('Back to results'))
         ->assertSee(__('Total estimate'))
+        ->assertSee(asset('images/chalet2.png'), false)
         ->assertSee('name="camping_spot_id" value="'.$campingSpot->id.'"', false)
         ->assertSee('name="guest_name"', false)
         ->assertSee('name="start_date" value="2026-07-02"', false)
         ->assertSee('name="end_date" value="2026-07-06"', false);
 });
 
-test('the booking page filters camping spots by selected price and capacity choices', function () {
+test('the booking page filters camping spots by selected price range and capacity choices', function () {
+    CampingSpot::factory()->create([
+        'name' => 'Goedkopeplaats',
+        'capacity' => 2,
+        'price_per_night' => 27,
+        'accommodation_type' => CampingSpot::TYPE_TENT_PITCH,
+    ]);
+
     CampingSpot::factory()->create([
         'name' => 'Budgetplaats',
         'capacity' => 2,
@@ -126,18 +137,25 @@ test('the booking page filters camping spots by selected price and capacity choi
     $response = $this->get(route('bookings.create', [
         'accommodation_types' => [CampingSpot::TYPE_TENT_PITCH],
         'capacity_ranges' => ['small'],
-        'price_ranges' => ['budget'],
+        'min_price' => 30,
+        'max_price' => 40,
     ]));
 
     $response
         ->assertSuccessful()
         ->assertSee(__('Filter your search'))
+        ->assertSee('data-auto-filter-form', false)
         ->assertSee(__('Accommodation type'))
-        ->assertSee(__('Price range'))
+        ->assertSee(__('Min price per night'))
+        ->assertSee(__('Max price per night'))
         ->assertSee('name="accommodation_types[]" value="'.CampingSpot::TYPE_TENT_PITCH.'" checked', false)
-        ->assertSee('name="price_ranges[]" value="budget" checked', false)
+        ->assertSee('name="min_price"', false)
+        ->assertSee('value="30"', false)
+        ->assertSee('name="max_price"', false)
+        ->assertSee('value="40"', false)
         ->assertSee('name="capacity_ranges[]" value="small" checked', false)
         ->assertSee('Budgetplaats')
+        ->assertDontSee('Goedkopeplaats')
         ->assertDontSee('Luxeplaats');
 });
 

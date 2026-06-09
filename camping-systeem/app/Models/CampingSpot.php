@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'description', 'capacity', 'price_per_night', 'accommodation_type', 'is_active'])]
+#[Fillable(['name', 'description', 'capacity', 'price_per_night', 'accommodation_type', 'image_path', 'is_active'])]
 class CampingSpot extends Model
 {
     /** @use HasFactory<CampingSpotFactory> */
@@ -35,6 +35,7 @@ class CampingSpot extends Model
         'capacity' => 4,
         'price_per_night' => 35,
         'accommodation_type' => self::TYPE_CAMPING_PITCH,
+        'image_path' => 'images/kampeerplek.png',
         'is_active' => true,
     ];
 
@@ -63,6 +64,7 @@ class CampingSpot extends Model
             'capacity' => 'integer',
             'price_per_night' => 'decimal:2',
             'accommodation_type' => 'string',
+            'image_path' => 'string',
             'is_active' => 'boolean',
         ];
     }

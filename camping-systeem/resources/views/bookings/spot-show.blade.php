@@ -29,6 +29,7 @@
 
             $pricePerNight = (float) $campingSpot->price_per_night;
             $totalPrice = $stayNights ? $pricePerNight * $stayNights : null;
+            $imagePath = $campingSpot->image_path ?? 'images/Kampvuur-avond.jpg';
         @endphp
 
         <main class="relative isolate overflow-hidden">
@@ -36,7 +37,7 @@
 
             <header class="w-full px-4 pt-4 sm:px-6 lg:px-8">
                 <nav class="flex w-full flex-col gap-4 rounded-4xl border border-[#213126]/10 bg-white p-3 shadow-xl shadow-[#213126]/5 backdrop-blur md:flex-row md:items-center md:justify-between" aria-label="{{ __('Main navigation') }}">
-                    <a href="{{ route('bookings.create', request()->only(['start_date', 'end_date', 'party_size', 'accommodation_types', 'price_ranges', 'capacity_ranges'])) }}" class="flex items-center gap-6">
+                    <a href="{{ route('bookings.create', request()->only(['start_date', 'end_date', 'party_size', 'accommodation_types', 'min_price', 'max_price', 'capacity_ranges'])) }}" class="flex items-center gap-6">
                         <span class="grid size-12 place-items-center rounded-2xl bg-[#17231a] text-sm font-black uppercase tracking-[0.12em] text-[#f8c76b] shadow-lg">
                             <img src="{{ asset('images/vuurvlieg.jpg') }}" alt="Logo" class="h-10 w-10 object-contain">
                         </span>
@@ -76,13 +77,13 @@
             </header>
 
             <section class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-                <a class="mb-5 inline-flex rounded-xl bg-white px-4 py-3 text-sm font-black text-[#003b73] shadow-sm ring-1 ring-[#213126]/10 transition hover:bg-[#eef4ff]" href="{{ route('bookings.create', request()->only(['start_date', 'end_date', 'party_size', 'accommodation_types', 'price_ranges', 'capacity_ranges'])) }}">
+                <a class="mb-5 inline-flex rounded-xl bg-white px-4 py-3 text-sm font-black text-[#003b73] shadow-sm ring-1 ring-[#213126]/10 transition hover:bg-[#eef4ff]" href="{{ route('bookings.create', request()->only(['start_date', 'end_date', 'party_size', 'accommodation_types', 'min_price', 'max_price', 'capacity_ranges'])) }}">
                     {{ __('Back to results') }}
                 </a>
 
                 <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
                     <article class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-[#213126]/10">
-                        <img src="{{ asset('images/Kampvuur-avond.jpg') }}" alt="{{ $campingSpot->name }}" class="h-72 w-full object-cover md:h-96">
+                        <img src="{{ asset($imagePath) }}" alt="{{ $campingSpot->name }}" class="h-72 w-full object-cover md:h-96">
 
                         <div class="p-5 md:p-7">
                             <div class="flex flex-wrap items-center gap-2">

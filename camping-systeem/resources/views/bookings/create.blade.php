@@ -9,7 +9,7 @@
         @fonts
 
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-            @vite('resources/css/app.css')
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
         @endif
     </head>
     <body class="min-h-screen bg-white">
@@ -41,10 +41,10 @@
                     </span>
 
                                         <span class="leading-tight text-left">
-                        <span class="block text-sm font-black uppercase tracking-[0.22em] text-[#6f4b25]">
+                        <span class="block text-sm font-black uppercase tracking-[0.22em] text-white">
                             {{ __('Camping') }}
                         </span>
-                        <span class="block text-lg font-black text-[#17231a]">
+                        <span class="block text-lg font-black text-white">
                             De Vuurvlieg
                         </span>
                     </span>
@@ -81,7 +81,7 @@
 
                 <div id="boeken" class="grid scroll-mt-32 gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
                     <aside class="lg:sticky lg:top-6 lg:self-start">
-                        <form method="GET" action="{{ route('bookings.create') }}" class="rounded-2xl bg-[#f8c76b] p-4 shadow-lg ring-1 ring-[#17231a]/10">
+                        <form method="GET" action="{{ route('bookings.create') }}" class="rounded-2xl bg-[#f8c76b] p-4 shadow-lg ring-1 ring-[#17231a]/10" data-auto-filter-form>
                             <div class="mb-4">
                                 <p class="text-lg font-black text-[#17231a]">{{ __('Filter your search') }}</p>
                                 <p class="mt-1 text-sm font-semibold text-[#513b12]">{{ __('Choose dates, guests and budget.') }}</p>
@@ -117,30 +117,50 @@
 
                                 <fieldset class="rounded-xl bg-white/70 p-3 ring-1 ring-[#17231a]/10">
                                     <legend class="text-sm font-black text-[#17231a]">{{ __('Price range') }}</legend>
-                                    <div class="mt-3 grid gap-2">
-                                        <label class="flex cursor-pointer items-start gap-3 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#17231a]">
-                                            <input class="mt-1 size-4 rounded border-[#003b73] text-[#003b73]" type="checkbox" name="price_ranges[]" value="budget" @checked(in_array('budget', $selectedPriceRanges, true))>
-                                            <span>
-                                                <span class="block font-black">{{ __('Budget') }}</span>
-                                                <span class="block text-xs text-[#513b12]">{{ __('Less than €40 per night') }}</span>
-                                            </span>
-                                        </label>
+                                    <div class="mt-3 rounded-lg bg-white p-3 text-sm font-semibold text-[#17231a]">
+                                        <div class="flex items-center justify-between gap-3">
+                                            <span>{{ __('Min price per night') }}</span>
+                                            <output class="rounded-md bg-[#fff4d6] px-2 py-1 text-xs font-black text-[#513b12]" data-price-min-output>
+                                                {{ Illuminate\Support\Number::currency($selectedMinPrice, in: 'EUR', locale: app()->getLocale()) }}
+                                            </output>
+                                        </div>
+                                        <div class="mt-2 flex items-center justify-between gap-3">
+                                            <span>{{ __('Max price per night') }}</span>
+                                            <output class="rounded-md bg-[#fff4d6] px-2 py-1 text-xs font-black text-[#513b12]" data-price-max-output>
+                                                {{ Illuminate\Support\Number::currency($selectedMaxPrice, in: 'EUR', locale: app()->getLocale()) }}
+                                            </output>
+                                        </div>
 
-                                        <label class="flex cursor-pointer items-start gap-3 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#17231a]">
-                                            <input class="mt-1 size-4 rounded border-[#003b73] text-[#003b73]" type="checkbox" name="price_ranges[]" value="standard" @checked(in_array('standard', $selectedPriceRanges, true))>
-                                            <span>
-                                                <span class="block font-black">{{ __('Standard') }}</span>
-                                                <span class="block text-xs text-[#513b12]">{{ __('€40 to €60 per night') }}</span>
-                                            </span>
-                                        </label>
-
-                                        <label class="flex cursor-pointer items-start gap-3 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-[#17231a]">
-                                            <input class="mt-1 size-4 rounded border-[#003b73] text-[#003b73]" type="checkbox" name="price_ranges[]" value="premium" @checked(in_array('premium', $selectedPriceRanges, true))>
-                                            <span>
-                                                <span class="block font-black">{{ __('Premium') }}</span>
-                                                <span class="block text-xs text-[#513b12]">{{ __('More than €60 per night') }}</span>
-                                            </span>
-                                        </label>
+                                        <div class="relative mt-5 h-8" data-price-range-group>
+                                            <div class="absolute left-0 right-0 top-1/2 h-2 -translate-y-1/2 rounded-full bg-[#e7e1cc]"></div>
+                                            <div class="absolute top-1/2 h-2 -translate-y-1/2 rounded-full bg-[#003b73]" data-price-range-track></div>
+                                            <input
+                                                class="price-range-input pointer-events-none absolute inset-x-0 top-0 h-8 w-full appearance-none bg-transparent"
+                                                data-price-min-range
+                                                type="range"
+                                                name="min_price"
+                                                min="25"
+                                                max="120"
+                                                step="5"
+                                                value="{{ $selectedMinPrice }}"
+                                                aria-label="{{ __('Min price per night') }}"
+                                            >
+                                            <input
+                                                class="price-range-input pointer-events-none absolute inset-x-0 top-0 h-8 w-full appearance-none bg-transparent"
+                                                data-price-max-range
+                                                type="range"
+                                                name="max_price"
+                                                min="25"
+                                                max="120"
+                                                step="5"
+                                                value="{{ $selectedMaxPrice }}"
+                                                aria-label="{{ __('Max price per night') }}"
+                                            >
+                                        </div>
+                                        <span class="mt-2 flex justify-between text-xs font-bold text-[#513b12]">
+                                            <span>{{ Illuminate\Support\Number::currency(25, in: 'EUR', locale: app()->getLocale()) }}</span>
+                                            <span>{{ Illuminate\Support\Number::currency(120, in: 'EUR', locale: app()->getLocale()) }}</span>
+                                        </span>
                                     </div>
                                 </fieldset>
 
@@ -174,9 +194,11 @@
                                 </fieldset>
                             </div>
 
-                            <button class="mt-5 w-full rounded-xl bg-[#003b73] px-4 py-3 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#17231a]" type="submit">
-                                {{ __('Check availability') }}
-                            </button>
+                            <noscript>
+                                <button class="mt-5 w-full rounded-xl bg-[#003b73] px-4 py-3 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#17231a]" type="submit">
+                                    {{ __('Check availability') }}
+                                </button>
+                            </noscript>
 
                             <a class="mt-3 inline-flex w-full justify-center rounded-xl bg-white px-4 py-3 text-sm font-black text-[#003b73] transition hover:bg-[#fff7df]" href="{{ route('bookings.create') }}">
                                 {{ __('Reset filters') }}
@@ -208,13 +230,14 @@
                             @forelse ($campingSpots as $campingSpot)
                                 @php
                                     $pricePerNight = (float) $campingSpot->price_per_night;
+                                    $imagePath = $campingSpot->image_path ?? 'images/Kampvuur-avond.jpg';
                                 @endphp
 
                                 <a
-                                    href="{{ route('bookings.spots.show', array_merge(['campingSpot' => $campingSpot], request()->only(['start_date', 'end_date', 'party_size', 'accommodation_types', 'price_ranges', 'capacity_ranges']))) }}"
+                                    href="{{ route('bookings.spots.show', array_merge(['campingSpot' => $campingSpot], request()->only(['start_date', 'end_date', 'party_size', 'accommodation_types', 'min_price', 'max_price', 'capacity_ranges']))) }}"
                                     class="group grid gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-[#213126]/10 transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-[#003b73]/15 md:grid-cols-[180px_minmax(0,1fr)_170px] md:p-5"
                                 >
-                                    <img src="{{ asset('images/Kampvuur-avond.jpg') }}" alt="{{ $campingSpot->name }}" class="h-40 w-full rounded-xl object-cover md:h-full">
+                                    <img src="{{ asset($imagePath) }}" alt="{{ $campingSpot->name }}" class="h-40 w-full rounded-xl object-cover md:h-full">
 
                                     <div class="min-w-0">
                                         <div class="flex flex-wrap items-center gap-2">
