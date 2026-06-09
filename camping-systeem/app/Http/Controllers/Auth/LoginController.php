@@ -22,24 +22,34 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            // Only allow the configured admin email to stay logged in
-            $adminEmail = env('ADMIN_EMAIL', 'admin@vuurvlieg.test');
+            $adminEmail = env('ADMIN_EMAIL', 'vuurvlieg@gmail.com');
             $user = Auth::user();
 
             if ($user && $user->email !== $adminEmail) {
-                // logout non-admin users immediately and redirect to home
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
 
-                return redirect('/dashboard');
+                return back()->withErrors([
+                    'email' => __('auth.failed', [], app()->getLocale()),
+                ])->onlyInput('email');
             }
 
-            return redirect()->intended('/');
+            return redirect()->intended(route('dashboard'));
         }
 
         return back()->withErrors([
             'email' => __('auth.failed', [], app()->getLocale()),
         ])->onlyInput('email');
+    }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 }

@@ -31,14 +31,14 @@
                             De Vuurvlieg
                         </span>
                 </span>
-                <section>
-                <span class="ml-auto flex items-center gap-4">
-                        <button
-                            onclick="window.location.href='/inlog'"
-                            class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-full">
+                <section class="ml-auto">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+
+                        <button class="rounded-full bg-red-600 px-4 py-2 font-bold text-white hover:bg-red-700" type="submit">
                             {{ __('Uitloggen') }}
                         </button>
-                </span>
+                    </form>
                 </section>
             </div>
         </nav>

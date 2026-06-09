@@ -12,8 +12,8 @@ class InitialSetupSeeder extends Seeder
     public function run(): void
     {
         // Create admin user
-        $adminEmail = env('ADMIN_EMAIL', 'admin@vuurvlieg.test');
-        $adminPassword = env('ADMIN_PASSWORD', 'Admin1234!');
+        $adminEmail = env('ADMIN_EMAIL', 'vuurvlieg@gmail.com');
+        $adminPassword = env('ADMIN_PASSWORD', 'Admin123');
 
         User::updateOrCreate([
             'email' => $adminEmail,
@@ -28,6 +28,7 @@ class InitialSetupSeeder extends Seeder
         ], [
             'description' => 'Ruime plek dichtbij het bos.',
             'capacity' => 4,
+            'price_per_night' => 37.50,
             'is_active' => true,
         ]);
 
@@ -36,6 +37,7 @@ class InitialSetupSeeder extends Seeder
         ], [
             'description' => 'Rustige plek met uitzicht op het meer.',
             'capacity' => 6,
+            'price_per_night' => 45,
             'is_active' => true,
         ]);
     }

@@ -20,6 +20,8 @@
                     'nl' => 'Nederlands',
                     'en' => 'English',
                 ];
+
+                $selectedCampingSpotId = (int) old('camping_spot_id', request('camping_spot_id'));
             @endphp
 
             <div class="absolute inset-0 -z-10 bg-[#F5F5DC]"></div>
@@ -71,7 +73,11 @@
             <section class="mx-auto grid min-h-screen w-full max-w-7xl gap-10 px-6 py-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-10 lg:py-14">
                 <div class="flex scroll-mt-32 flex-col justify-between gap-10">
                     <div class="space-y-8">
-                        <p>hier kunnen de filters miss staan</p>
+                        <div class="space-y-4">
+                            <p class="text-sm font-black uppercase tracking-[0.28em] text-[#6f4b25]">{{ __('Book directly') }}</p>
+                            <h1 class="max-w-xl text-4xl font-black leading-tight text-[#17231a] md:text-5xl">{{ __('Book your camping spot') }}</h1>
+                            <p class="max-w-xl text-lg leading-8 text-[#526051]">{{ __('Find your place between forest, dunes and the campfire.') }}</p>
+                        </div>
                     </div>
 
                     <div class="grid gap-4 sm:grid-cols-3">
@@ -110,7 +116,7 @@
                         </div>
 
                         <button class="mt-5 w-full rounded-2xl bg-[#17231a] px-5 py-4 text-sm font-black uppercase tracking-[0.2em] text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#264f3a]" type="submit">
-                            {{ __('Controleer beschikbaarheid') }}
+                            {{ __('Check availability') }}
                         </button>
                     </form>
 
@@ -122,24 +128,49 @@
 
                     <div class="grid gap-4 md:grid-cols-2">
                         @forelse ($campingSpots as $campingSpot)
-                            <article class="rounded-[1.75rem] bg-white/65 p-5 shadow-sm ring-1 ring-[#213126]/10 backdrop-blur">
-                                <div class="flex items-start justify-between gap-4">
-                                    <div>
-                                        <h2 class="text-xl font-black">{{ $campingSpot->name }}</h2>
-                                        <p class="mt-2 text-sm leading-6 text-[#526051]">{{ $campingSpot->description ?? __('Rustige kampeerplek met voldoende ruimte voor tent of caravan.') }}</p>
+                            <details
+                                @if ($selectedCampingSpotId === $campingSpot->id) open @endif
+                                class="group rounded-[1.75rem] bg-white/65 shadow-sm ring-1 ring-[#213126]/10 backdrop-blur transition hover:-translate-y-0.5 hover:bg-white focus-within:ring-4 focus-within:ring-[#264f3a]/15 open:bg-white"
+                            >
+                                <summary class="flex cursor-pointer list-none items-start justify-between gap-4 p-5 marker:hidden">
+                                    <div class="min-w-0">
+                                        <h2 class="text-xl font-black text-[#17231a]">{{ $campingSpot->name }}</h2>
+                                        <p class="mt-2 line-clamp-2 text-sm leading-6 text-[#526051]">{{ $campingSpot->description ?? __('Quiet camping spot with enough room for your tent or caravan.') }}</p>
                                     </div>
-                                    <span class="rounded-full bg-[#d9edc8] px-3 py-1 text-xs font-black text-[#264f3a]">{{ __(':count guests', ['count' => $campingSpot->capacity]) }}</span>
+                                    <span class="shrink-0 rounded-full bg-[#d9edc8] px-3 py-1 text-xs font-black text-[#264f3a]">{{ __(':count guests', ['count' => $campingSpot->capacity]) }}</span>
+                                </summary>
+
+                                <div class="grid gap-4 border-t border-[#213126]/10 px-5 pb-5 pt-4 text-sm text-[#526051]">
+                                    <div class="grid gap-3 sm:grid-cols-2">
+                                        <div>
+                                            <p class="text-xs font-black uppercase tracking-[0.16em] text-[#6f4b25]">{{ __('Price per night') }}</p>
+                                            <p class="mt-1 text-lg font-black text-[#17231a]">{{ Illuminate\Support\Number::currency((float) $campingSpot->price_per_night, in: 'EUR', locale: app()->getLocale()) }}</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs font-black uppercase tracking-[0.16em] text-[#6f4b25]">{{ __('Capacity') }}</p>
+                                            <p class="mt-1 text-lg font-black text-[#17231a]">{{ __(':count guests', ['count' => $campingSpot->capacity]) }}</p>
+                                        </div>
+                                    </div>
+
+                                    <p class="leading-6">{{ $campingSpot->description ?? __('Quiet camping spot with enough room for your tent or caravan.') }}</p>
+
+                                    <a
+                                        class="inline-flex justify-center rounded-2xl bg-[#17231a] px-4 py-3 text-sm font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#264f3a] focus:outline-none focus:ring-4 focus:ring-[#264f3a]/15"
+                                        href="{{ route('bookings.create', array_merge(request()->query(), ['camping_spot_id' => $campingSpot->id])) }}#reserveren"
+                                    >
+                                        {{ __('Choose this spot') }}
+                                    </a>
                                 </div>
-                            </article>
+                            </details>
                         @empty
                             <div class="md:col-span-2 rounded-[1.75rem] bg-white/65 p-6 text-center shadow-sm ring-1 ring-[#213126]/10 backdrop-blur">
-                                <h2 class="text-xl font-black">{{ __('Geen plekken gevonden') }}</h2>
-                                <p class="mt-2 text-sm text-[#526051]">{{ __('Probeer een andere periode of een kleinere groepsgrootte.') }}</p>
+                                <h2 class="text-xl font-black">{{ __('No spots found') }}</h2>
+                                <p class="mt-2 text-sm text-[#526051]">{{ __('Try another period or a smaller group size.') }}</p>
                             </div>
                         @endforelse
                     </div>
 
-                    <form method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-4xl bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
+                    <form id="reserveren" method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-4xl bg-[#17231a] p-5 text-white shadow-2xl md:p-7">
                         @csrf
 
                         <div class="mb-6">
@@ -159,7 +190,7 @@
                                 <select class="w-full rounded-2xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" name="camping_spot_id" required>
                                     <option value="">{{ __('Kies een plek') }}</option>
                                     @foreach ($campingSpots as $campingSpot)
-                                        <option value="{{ $campingSpot->id }}" @selected((int) old('camping_spot_id') === $campingSpot->id)>
+                                        <option value="{{ $campingSpot->id }}" @selected($selectedCampingSpotId === $campingSpot->id)>
                                             {{ __(':name - max. :count personen', ['name' => $campingSpot->name, 'count' => $campingSpot->capacity]) }}
                                         </option>
                                     @endforeach

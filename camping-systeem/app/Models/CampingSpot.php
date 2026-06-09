@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'description', 'capacity', 'is_active'])]
+#[Fillable(['name', 'description', 'capacity', 'price_per_night', 'is_active'])]
 class CampingSpot extends Model
 {
     /** @use HasFactory<CampingSpotFactory> */
@@ -18,6 +18,7 @@ class CampingSpot extends Model
 
     protected $attributes = [
         'capacity' => 4,
+        'price_per_night' => 35,
         'is_active' => true,
     ];
 
@@ -26,12 +27,10 @@ class CampingSpot extends Model
         return $this->hasMany(Booking::class);
     }
 
-
     public function scopeActive(Builder $query): Builder
     {
         return $query->where('is_active', true);
     }
-
 
     public function scopeAvailableBetween(Builder $query, CarbonInterface|string $startDate, CarbonInterface|string $endDate): Builder
     {
@@ -42,11 +41,11 @@ class CampingSpot extends Model
         });
     }
 
-
     protected function casts(): array
     {
         return [
             'capacity' => 'integer',
+            'price_per_night' => 'decimal:2',
             'is_active' => 'boolean',
         ];
     }

@@ -14,15 +14,18 @@ test('a guest can book an available camping spot', function () {
         'capacity' => 4,
     ]);
 
-    $response = $this->post(route('bookings.store'), [
-        'camping_spot_id' => $campingSpot->id,
-        'guest_name' => 'Jan de Vries',
-        'guest_email' => 'jan@example.com',
-        'guest_phone' => '0612345678',
-        'start_date' => '2026-07-01',
-        'end_date' => '2026-07-08',
-        'party_size' => 3,
-    ]);
+    $response = $this
+        ->withSession(['_token' => 'test-token'])
+        ->post(route('bookings.store'), [
+            '_token' => 'test-token',
+            'camping_spot_id' => $campingSpot->id,
+            'guest_name' => 'Jan de Vries',
+            'guest_email' => 'jan@example.com',
+            'guest_phone' => '0612345678',
+            'start_date' => '2026-07-01',
+            'end_date' => '2026-07-08',
+            'party_size' => 3,
+        ]);
 
     $booking = Booking::query()->first();
 
@@ -41,6 +44,7 @@ test('the booking page lists available camping spots for the selected dates', fu
     $availableSpot = CampingSpot::factory()->create([
         'name' => 'Bosrand 12',
         'capacity' => 4,
+        'price_per_night' => 45,
     ]);
 
     $bookedSpot = CampingSpot::factory()->create([
@@ -64,6 +68,9 @@ test('the booking page lists available camping spots for the selected dates', fu
     $response
         ->assertSuccessful()
         ->assertSee($availableSpot->name)
+        ->assertSee(__('Price per night'))
+        ->assertSee(__('Choose this spot'))
+        ->assertSee('camping_spot_id='.$availableSpot->id, false)
         ->assertDontSee($bookedSpot->name);
 });
 
@@ -79,14 +86,18 @@ test('a camping spot cannot be double booked for overlapping dates', function ()
             'end_date' => '2026-07-08',
         ]);
 
-    $response = $this->from('/')->post(route('bookings.store'), [
-        'camping_spot_id' => $campingSpot->id,
-        'guest_name' => 'Piet Jansen',
-        'guest_email' => 'piet@example.com',
-        'start_date' => '2026-07-05',
-        'end_date' => '2026-07-10',
-        'party_size' => 2,
-    ]);
+    $response = $this
+        ->from('/')
+        ->withSession(['_token' => 'test-token'])
+        ->post(route('bookings.store'), [
+            '_token' => 'test-token',
+            'camping_spot_id' => $campingSpot->id,
+            'guest_name' => 'Piet Jansen',
+            'guest_email' => 'piet@example.com',
+            'start_date' => '2026-07-05',
+            'end_date' => '2026-07-10',
+            'party_size' => 2,
+        ]);
 
     $response
         ->assertRedirect('/')
@@ -107,14 +118,17 @@ test('a booking can start on the day another booking ends', function () {
             'end_date' => '2026-07-08',
         ]);
 
-    $response = $this->post(route('bookings.store'), [
-        'camping_spot_id' => $campingSpot->id,
-        'guest_name' => 'Sara Bakker',
-        'guest_email' => 'sara@example.com',
-        'start_date' => '2026-07-08',
-        'end_date' => '2026-07-12',
-        'party_size' => 2,
-    ]);
+    $response = $this
+        ->withSession(['_token' => 'test-token'])
+        ->post(route('bookings.store'), [
+            '_token' => 'test-token',
+            'camping_spot_id' => $campingSpot->id,
+            'guest_name' => 'Sara Bakker',
+            'guest_email' => 'sara@example.com',
+            'start_date' => '2026-07-08',
+            'end_date' => '2026-07-12',
+            'party_size' => 2,
+        ]);
 
     $response->assertRedirect();
 
