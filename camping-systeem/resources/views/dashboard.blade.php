@@ -32,13 +32,15 @@
                         </span>
                 </span>
                 <section>
-                <span class="ml-auto flex items-center gap-4">
-                        <button
-                            onclick="window.location.href='/inlog'"
-                            class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-full">
-                            {{ __('Uitloggen') }}
-                        </button>
-                </span>
+                    <div>
+                        <span class="ml-320 flex items-right gap-4">
+                         <button
+                               onclick="window.location.href='/login'"
+                               class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-full">
+                              {{ __('Uitloggen') }}
+                            </button>
+                        </span>
+                    </div>
                 </section>
             </div>
         </nav>
@@ -52,8 +54,15 @@
                 </h1>
 
                 <div class="mt-8 rounded-3xl bg-[#17231a] p-6 text-white">
-                    <p class="text-lg font-bold">{{ __('Your bookings') }}</p>
-                    <p>{{ __('') }}</p>
+                    <p class="text-lg font-bold">{{ __('Your bookings:') }}</p>
+{{--                    @foreach ($reserveringen as $res)--}}
+{{--                        <li class="p-4 bg-white/20 rounded-xl">--}}
+{{--                            <p>Property: {{ $res->property_id }}</p>--}}
+{{--                            <p>Start: {{ $res->start_date }}</p>--}}
+{{--                            <p>Eind: {{ $res->end_date }}</p>--}}
+{{--                        </li>--}}
+{{--                    @endforeach--}}
+
                 </div>
             </section>
 

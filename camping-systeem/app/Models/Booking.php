@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[Fillable([
-    'camping_spot_id',
     'voornaam',
     'achternaam',
     'e-mailadres',
@@ -21,6 +20,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
     'party_size',
     'status',
     'notes',
+    'gegevens_id',
+    'property_id',
 ])]
 class Booking extends Model
 {
