@@ -21,8 +21,6 @@
                     'en' => 'English',
                 ];
 
-                $selectedCampingSpotId = (int) old('camping_spot_id', request('camping_spot_id'));
-
                 $accommodationTypeLabels = [
                     App\Models\CampingSpot::TYPE_TENT_PITCH => __('Tent pitch'),
                     App\Models\CampingSpot::TYPE_CHALET => __('Chalet'),
@@ -224,154 +222,37 @@
                                     $totalPrice = $stayNights ? $pricePerNight * $stayNights : null;
                                 @endphp
 
-                                <details
-                                    @if ($selectedCampingSpotId === $campingSpot->id) open @endif
-                                    class="group overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-[#213126]/10 transition hover:shadow-md focus-within:ring-4 focus-within:ring-[#003b73]/15 open:shadow-md"
+                                <a
+                                    href="{{ route('bookings.spots.show', array_merge(['campingSpot' => $campingSpot], request()->only(['start_date', 'end_date', 'party_size', 'accommodation_types', 'price_ranges', 'capacity_ranges']))) }}"
+                                    class="group grid gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-[#213126]/10 transition hover:-translate-y-0.5 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-[#003b73]/15 md:grid-cols-[180px_minmax(0,1fr)_170px] md:p-5"
                                 >
-                                    <summary class="grid cursor-pointer list-none gap-4 p-4 marker:hidden md:grid-cols-[180px_minmax(0,1fr)_170px] md:p-5">
-                                        <img src="{{ asset('images/Kampvuur-avond.jpg') }}" alt="{{ $campingSpot->name }}" class="h-40 w-full rounded-xl object-cover md:h-full">
+                                    <img src="{{ asset('images/Kampvuur-avond.jpg') }}" alt="{{ $campingSpot->name }}" class="h-40 w-full rounded-xl object-cover md:h-full">
 
-                                        <div class="min-w-0">
-                                            <div class="flex flex-wrap items-center gap-2">
-                                                <h3 class="text-2xl font-black text-[#003b73]">{{ $campingSpot->name }}</h3>
-                                                <span class="rounded-full bg-[#eef4ff] px-3 py-1 text-xs font-black text-[#003b73]">{{ $accommodationTypeLabels[$campingSpot->accommodation_type] ?? __('Camping pitch') }}</span>
-                                                <span class="rounded-full bg-[#d9edc8] px-3 py-1 text-xs font-black text-[#264f3a]">{{ __(':count guests', ['count' => $campingSpot->capacity]) }}</span>
-                                            </div>
-                                            <p class="mt-2 line-clamp-2 text-sm leading-6 text-[#526051]">{{ $campingSpot->description ?? __('Quiet camping spot with enough room for your tent or caravan.') }}</p>
-                                            <div class="mt-4 flex flex-wrap gap-2 text-xs font-black uppercase tracking-[0.14em]">
-                                                <span class="rounded-full bg-[#eef4ff] px-3 py-1 text-[#003b73]">{{ $accommodationTypeLabels[$campingSpot->accommodation_type] ?? __('Camping pitch') }}</span>
-                                                <span class="rounded-full bg-[#fff4d6] px-3 py-1 text-[#6f4b25]">{{ __('Instant request') }}</span>
-                                            </div>
-                                            <p class="mt-4 text-sm font-black text-[#003b73]">{{ __('Click for details and prices') }}</p>
+                                    <div class="min-w-0">
+                                        <div class="flex flex-wrap items-center gap-2">
+                                            <h3 class="text-2xl font-black text-[#003b73] group-hover:underline">{{ $campingSpot->name }}</h3>
+                                            <span class="rounded-full bg-[#eef4ff] px-3 py-1 text-xs font-black text-[#003b73]">{{ $accommodationTypeLabels[$campingSpot->accommodation_type] ?? __('Camping pitch') }}</span>
+                                            <span class="rounded-full bg-[#d9edc8] px-3 py-1 text-xs font-black text-[#264f3a]">{{ __(':count guests', ['count' => $campingSpot->capacity]) }}</span>
                                         </div>
-
-                                        <div class="flex flex-col justify-between gap-4 text-left md:text-right">
-                                            <div>
-                                                <p class="text-xs font-bold text-[#526051]">{{ __('From') }}</p>
-                                                <p class="text-2xl font-black text-[#17231a]">{{ Illuminate\Support\Number::currency($pricePerNight, in: 'EUR', locale: app()->getLocale()) }}</p>
-                                                <p class="text-xs font-semibold text-[#526051]">{{ __('per night') }}</p>
-                                            </div>
-                                            <span class="inline-flex justify-center rounded-xl bg-[#003b73] px-4 py-3 text-sm font-black text-white transition group-open:bg-[#17231a]">
-                                                {{ __('View details') }}
-                                            </span>
+                                        <p class="mt-2 line-clamp-2 text-sm leading-6 text-[#526051]">{{ $campingSpot->description ?? __('Quiet camping spot with enough room for your tent or caravan.') }}</p>
+                                        <div class="mt-4 flex flex-wrap gap-2 text-xs font-black uppercase tracking-[0.14em]">
+                                            <span class="rounded-full bg-[#eef4ff] px-3 py-1 text-[#003b73]">{{ $accommodationTypeLabels[$campingSpot->accommodation_type] ?? __('Camping pitch') }}</span>
+                                            <span class="rounded-full bg-[#fff4d6] px-3 py-1 text-[#6f4b25]">{{ __('Instant request') }}</span>
                                         </div>
-                                    </summary>
-
-                                    <div class="grid gap-5 border-t border-[#213126]/10 px-4 pb-5 pt-4 md:grid-cols-[minmax(0,1fr)_220px] md:px-5">
-                                        <div class="space-y-4 text-sm leading-6 text-[#526051]">
-                                            <p>{{ $campingSpot->description ?? __('Quiet camping spot with enough room for your tent or caravan.') }}</p>
-
-                                            <div class="grid gap-3 sm:grid-cols-3">
-                                                <div>
-                                                    <p class="text-xs font-black uppercase tracking-[0.16em] text-[#6f4b25]">{{ __('Price per night') }}</p>
-                                                    <p class="mt-1 text-lg font-black text-[#17231a]">{{ Illuminate\Support\Number::currency($pricePerNight, in: 'EUR', locale: app()->getLocale()) }}</p>
-                                                </div>
-                                                <div>
-                                                    <p class="text-xs font-black uppercase tracking-[0.16em] text-[#6f4b25]">{{ __('Capacity') }}</p>
-                                                    <p class="mt-1 text-lg font-black text-[#17231a]">{{ __(':count guests', ['count' => $campingSpot->capacity]) }}</p>
-                                                </div>
-                                                <div>
-                                                    <p class="text-xs font-black uppercase tracking-[0.16em] text-[#6f4b25]">{{ __('Stay') }}</p>
-                                                    <p class="mt-1 text-lg font-black text-[#17231a]">{{ $stayNights ? __(':count nights', ['count' => $stayNights]) : __('Choose dates') }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="rounded-xl bg-[#f7f8f5] p-4">
-                                            <p class="text-xs font-black uppercase tracking-[0.16em] text-[#6f4b25]">{{ __('Total estimate') }}</p>
-                                            <p class="mt-2 text-2xl font-black text-[#17231a]">
-                                                {{ $totalPrice ? Illuminate\Support\Number::currency($totalPrice, in: 'EUR', locale: app()->getLocale()) : Illuminate\Support\Number::currency($pricePerNight, in: 'EUR', locale: app()->getLocale()) }}
-                                            </p>
-                                            <p class="mt-1 text-xs font-semibold text-[#526051]">{{ $stayNights ? __('based on selected dates') : __('per night, choose dates for total') }}</p>
-                                        </div>
-
-                                        <form method="POST" action="{{ route('bookings.store') }}" class="scroll-mt-32 rounded-xl bg-[#17231a] p-4 text-white md:col-span-2 md:p-5">
-                                            @csrf
-
-                                            <input type="hidden" name="camping_spot_id" value="{{ $campingSpot->id }}">
-
-                                            <div class="mb-5">
-                                                <p class="text-sm font-bold uppercase tracking-[0.3em] text-[#f2d29f]">{{ __('Reserveren') }}</p>
-                                                <h2 class="mt-2 text-2xl font-black">{{ __('Rond je reservering af') }}</h2>
-                                                <p class="mt-1 text-sm font-semibold text-white/70">{{ __('You are booking :name.', ['name' => $campingSpot->name]) }}</p>
-                                            </div>
-
-                                            @if ($errors->any() && $selectedCampingSpotId === $campingSpot->id)
-                                                <div class="mb-5 rounded-xl bg-[#f8c76b] p-4 text-sm font-semibold text-[#221407]">
-                                                    {{ __('Check the highlighted fields and try again.') }}
-                                                </div>
-                                            @endif
-
-                                            @error('camping_spot_id')
-                                                @if ($selectedCampingSpotId === $campingSpot->id)
-                                                    <div class="mb-5 rounded-xl bg-[#f8c76b] p-4 text-sm font-semibold text-[#221407]">{{ $message }}</div>
-                                                @endif
-                                            @enderror
-
-                                            <div class="grid gap-4 md:grid-cols-2">
-                                                <label class="space-y-2">
-                                                    <span class="text-sm font-bold">{{ __('Name') }}</span>
-                                                    <input class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="text" name="guest_name" value="{{ old('guest_name') }}" required>
-                                                    @error('guest_name')
-                                                        <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
-                                                    @enderror
-                                                </label>
-
-                                                <label class="space-y-2">
-                                                    <span class="text-sm font-bold">{{ __('Email') }}</span>
-                                                    <input class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="email" name="guest_email" value="{{ old('guest_email') }}" required>
-                                                    @error('guest_email')
-                                                        <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
-                                                    @enderror
-                                                </label>
-
-                                                <label class="space-y-2">
-                                                    <span class="text-sm font-bold">{{ __('Phone') }}</span>
-                                                    <input class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="text" name="guest_phone" value="{{ old('guest_phone') }}">
-                                                    @error('guest_phone')
-                                                        <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
-                                                    @enderror
-                                                </label>
-
-                                                <label class="space-y-2">
-                                                    <span class="text-sm font-bold">{{ __('Guests') }}</span>
-                                                    <input class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="number" name="party_size" min="1" value="{{ old('party_size', request('party_size', 2)) }}" required>
-                                                    @error('party_size')
-                                                        <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
-                                                    @enderror
-                                                </label>
-
-                                                <label class="space-y-2">
-                                                    <span class="text-sm font-bold">{{ __('Arrival') }}</span>
-                                                    <input class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="date" name="start_date" value="{{ old('start_date', request('start_date')) }}" required>
-                                                    @error('start_date')
-                                                        <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
-                                                    @enderror
-                                                </label>
-
-                                                <label class="space-y-2">
-                                                    <span class="text-sm font-bold">{{ __('Departure') }}</span>
-                                                    <input class="w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" type="date" name="end_date" value="{{ old('end_date', request('end_date')) }}" required>
-                                                    @error('end_date')
-                                                        <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
-                                                    @enderror
-                                                </label>
-
-                                                <label class="space-y-2 md:col-span-2">
-                                                    <span class="text-sm font-bold">{{ __('Note') }}</span>
-                                                    <textarea class="min-h-24 w-full rounded-xl border border-white/10 bg-white px-4 py-3 text-[#213126] outline-none transition focus:ring-4 focus:ring-white/20" name="notes">{{ old('notes') }}</textarea>
-                                                    @error('notes')
-                                                        <span class="text-sm font-semibold text-[#f8c76b]">{{ $message }}</span>
-                                                    @enderror
-                                                </label>
-                                            </div>
-
-                                            <button class="mt-5 w-full rounded-xl bg-[#f8c76b] px-5 py-4 text-sm font-black uppercase tracking-[0.18em] text-[#17231a] shadow-lg transition hover:bg-[#ffd982]" type="submit">
-                                                {{ __('Reserve') }}
-                                            </button>
-                                        </form>
+                                        <p class="mt-4 text-sm font-black text-[#003b73]">{{ __('Click for details and prices') }}</p>
                                     </div>
-                                </details>
+
+                                    <div class="flex flex-col justify-between gap-4 text-left md:text-right">
+                                        <div>
+                                            <p class="text-xs font-bold text-[#526051]">{{ __('From') }}</p>
+                                            <p class="text-2xl font-black text-[#17231a]">{{ Illuminate\Support\Number::currency($pricePerNight, in: 'EUR', locale: app()->getLocale()) }}</p>
+                                            <p class="text-xs font-semibold text-[#526051]">{{ __('per night') }}</p>
+                                        </div>
+                                        <span class="inline-flex justify-center rounded-xl bg-[#003b73] px-4 py-3 text-sm font-black text-white transition group-hover:bg-[#17231a]">
+                                            {{ __('View details') }}
+                                        </span>
+                                    </div>
+                                </a>
                             @empty
                                 <div class="rounded-2xl bg-white p-8 text-center shadow-sm ring-1 ring-[#213126]/10">
                                     <h2 class="text-xl font-black text-[#17231a]">{{ __('No spots found') }}</h2>

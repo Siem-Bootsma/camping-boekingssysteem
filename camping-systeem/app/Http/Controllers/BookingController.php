@@ -55,6 +55,31 @@ class BookingController extends Controller
         return redirect()->route('bookings.show', $booking);
     }
 
+    public function showSpot(Request $request, CampingSpot $campingSpot): View
+    {
+        abort_unless($campingSpot->is_active, 404);
+
+        $startDate = $this->dateFilter($request->query('start_date'));
+        $endDate = $this->dateFilter($request->query('end_date'));
+        $hasDateRange = $startDate && $endDate && $endDate > $startDate;
+        $stayNights = $hasDateRange
+            ? (int) CarbonImmutable::parse($startDate)->diffInDays(CarbonImmutable::parse($endDate))
+            : null;
+        $isAvailable = $hasDateRange
+            ? CampingSpot::query()
+                ->whereKey($campingSpot->getKey())
+                ->availableBetween($startDate, $endDate)
+                ->exists()
+            : null;
+
+        return view('bookings.spot-show', [
+            'campingSpot' => $campingSpot,
+            'hasAvailabilitySearch' => $hasDateRange,
+            'isAvailable' => $isAvailable,
+            'stayNights' => $stayNights,
+        ]);
+    }
+
     public function show(Booking $booking): View
     {
         return view('bookings.show', [

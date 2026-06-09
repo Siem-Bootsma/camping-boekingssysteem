@@ -18,6 +18,7 @@ Route::post('/login', [LoginController::class, 'store'])->name('login');
 
 Route::middleware(SetLocale::class)->group(function (): void {
     Route::get('/booking', [BookingController::class, 'create'])->name('bookings.create');
+    Route::get('/booking/spots/{campingSpot}', [BookingController::class, 'showSpot'])->name('bookings.spots.show');
 
     Route::get('/', [BookingController::class, 'create']);
 
