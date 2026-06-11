@@ -7,6 +7,7 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Models\Booking;
 use App\Models\CampingSpot;
 use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -63,6 +64,8 @@ class BookingController extends Controller
 
         $startDate = $this->dateFilter($request->query('start_date'));
         $endDate = $this->dateFilter($request->query('end_date'));
+        $calendarMonth = $this->monthFilter($request->query('month'))
+            ?? CarbonImmutable::parse($startDate ?? now())->startOfMonth();
         $hasDateRange = $startDate && $endDate && $endDate > $startDate;
         $stayNights = $hasDateRange
             ? (int) CarbonImmutable::parse($startDate)->diffInDays(CarbonImmutable::parse($endDate))
@@ -75,6 +78,8 @@ class BookingController extends Controller
             : null;
 
         return view('bookings.spot-show', [
+            'availabilityCalendar' => $this->availabilityCalendar($request, $campingSpot, $calendarMonth),
+            'calendarMonth' => $calendarMonth,
             'campingSpot' => $campingSpot,
             'hasAvailabilitySearch' => $hasDateRange,
             'isAvailable' => $isAvailable,
@@ -84,8 +89,14 @@ class BookingController extends Controller
 
     public function show(Booking $booking): View
     {
+        $booking->load('campingSpot');
+        $stayNights = (int) $booking->start_date->diffInDays($booking->end_date);
+        $estimatedTotal = $stayNights * (float) $booking->campingSpot->price_per_night;
+
         return view('bookings.show', [
-            'booking' => $booking->load('campingSpot'),
+            'booking' => $booking,
+            'estimatedTotal' => $estimatedTotal,
+            'stayNights' => $stayNights,
         ]);
     }
 
@@ -96,6 +107,136 @@ class BookingController extends Controller
         }
 
         return $value;
+    }
+
+    private function monthFilter(mixed $value): ?CarbonImmutable
+    {
+        if (! is_string($value) || preg_match('/^\d{4}-\d{2}$/', $value) !== 1) {
+            return null;
+        }
+
+        return CarbonImmutable::createFromFormat('Y-m-d', $value.'-01')->startOfMonth();
+    }
+
+    /**
+     * @return array{
+     *     months: list<array{
+     *         label: string,
+     *         days: list<array{
+     *             date: CarbonImmutable,
+     *             isCurrentMonth: bool,
+     *             isPast: bool,
+     *             isBooked: bool,
+     *             isSelectedStart: bool,
+     *             isSelectedEnd: bool,
+     *             isInSelectedRange: bool,
+     *             selectsEndDate: bool,
+     *             selectUrl: string|null
+     *         }>
+     *     }>,
+     *     nextMonthUrl: string,
+     *     previousMonthUrl: string
+     * }
+     */
+    private function availabilityCalendar(Request $request, CampingSpot $campingSpot, CarbonImmutable $calendarMonth): array
+    {
+        $displayMonths = [
+            $calendarMonth->startOfMonth(),
+            $calendarMonth->addMonth()->startOfMonth(),
+        ];
+        $gridStart = $displayMonths[0]->startOfWeek(CarbonInterface::MONDAY);
+        $gridEnd = $displayMonths[1]->endOfMonth()->endOfWeek(CarbonInterface::SUNDAY);
+        $today = CarbonImmutable::today();
+        $selectedStart = $this->dateFilter($request->query('start_date'));
+        $selectedEnd = $this->dateFilter($request->query('end_date'));
+        $selectedStartDate = $selectedStart ? CarbonImmutable::parse($selectedStart) : null;
+        $selectedEndDate = $selectedEnd ? CarbonImmutable::parse($selectedEnd) : null;
+
+        $bookings = $campingSpot->bookings()
+            ->where('status', Booking::STATUS_CONFIRMED)
+            ->overlapping($gridStart, $gridEnd->addDay())
+            ->get(['start_date', 'end_date']);
+
+        $rangeContainsBooking = function (CarbonImmutable $rangeStart, CarbonImmutable $rangeEnd) use ($bookings): bool {
+            return $rangeEnd->greaterThan($rangeStart)
+                && $bookings->contains(function (Booking $booking) use ($rangeStart, $rangeEnd): bool {
+                    return $rangeStart->lessThan($booking->end_date)
+                        && $rangeEnd->greaterThan($booking->start_date);
+                });
+        };
+
+        $months = [];
+
+        foreach ($displayMonths as $displayMonth) {
+            $monthStart = $displayMonth->startOfMonth();
+            $monthEnd = $displayMonth->endOfMonth();
+            $monthGridStart = $monthStart->startOfWeek(CarbonInterface::MONDAY);
+            $monthGridEnd = $monthEnd->endOfWeek(CarbonInterface::SUNDAY);
+            $days = [];
+
+            for ($date = $monthGridStart; $date->lessThanOrEqualTo($monthGridEnd); $date = $date->addDay()) {
+                $dateString = $date->toDateString();
+                $isBooked = $bookings->contains(function (Booking $booking) use ($date): bool {
+                    return $date->greaterThanOrEqualTo($booking->start_date)
+                        && $date->lessThan($booking->end_date);
+                });
+                $isPast = $date->lessThan($today);
+                $isCurrentMonth = $date->isSameMonth($monthStart);
+                $isInSelectedRange = $selectedStartDate
+                    && $selectedEndDate
+                    && $date->betweenIncluded($selectedStartDate, $selectedEndDate);
+                $selectParameters = [
+                    'campingSpot' => $campingSpot,
+                    'start_date' => $dateString,
+                ];
+                $selectsEndDate = false;
+
+                if (
+                    $selectedStartDate
+                    && ! $selectedEndDate
+                    && $date->greaterThan($selectedStartDate)
+                    && ! $rangeContainsBooking($selectedStartDate, $date)
+                ) {
+                    $selectsEndDate = true;
+                    $selectParameters['start_date'] = $selectedStartDate->toDateString();
+                    $selectParameters['end_date'] = $dateString;
+                }
+
+                $days[] = [
+                    'date' => $date,
+                    'isCurrentMonth' => $isCurrentMonth,
+                    'isPast' => $isPast,
+                    'isBooked' => $isBooked,
+                    'isSelectedStart' => $selectedStart === $dateString,
+                    'isSelectedEnd' => $selectedEnd === $dateString,
+                    'isInSelectedRange' => $isInSelectedRange,
+                    'selectsEndDate' => $selectsEndDate,
+                    'selectUrl' => (! $isPast && ! $isBooked && $isCurrentMonth)
+                        ? route('bookings.spots.show', array_merge(
+                            $selectParameters,
+                            $request->only(['party_size', 'accommodation_types', 'min_price', 'max_price', 'capacity_ranges'])
+                        )).'#availability-calendar'
+                        : null,
+                ];
+            }
+
+            $months[] = [
+                'label' => $displayMonth->format('F Y'),
+                'days' => $days,
+            ];
+        }
+
+        return [
+            'months' => $months,
+            'nextMonthUrl' => route('bookings.spots.show', array_merge([
+                'campingSpot' => $campingSpot,
+                'month' => $calendarMonth->addMonth()->format('Y-m'),
+            ], $request->only(['start_date', 'end_date', 'party_size', 'accommodation_types', 'min_price', 'max_price', 'capacity_ranges']))).'#availability-calendar',
+            'previousMonthUrl' => route('bookings.spots.show', array_merge([
+                'campingSpot' => $campingSpot,
+                'month' => $calendarMonth->subMonth()->format('Y-m'),
+            ], $request->only(['start_date', 'end_date', 'party_size', 'accommodation_types', 'min_price', 'max_price', 'capacity_ranges']))).'#availability-calendar',
+        ];
     }
 
     /**

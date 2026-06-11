@@ -1,14 +1,17 @@
 <?php
 
+use App\Mail\BookingConfirmed;
 use App\Models\Booking;
 use App\Models\CampingSpot;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 uses(RefreshDatabase::class);
 
 test('a guest can book an available camping spot', function () {
     Carbon::setTestNow('2026-06-01 10:00:00');
+    Mail::fake();
 
     $campingSpot = CampingSpot::factory()->create([
         'capacity' => 4,
@@ -36,6 +39,68 @@ test('a guest can book an available camping spot', function () {
     expect($booking->guest_name)->toBe('Jan de Vries');
     expect($booking->camping_spot_id)->toBe($campingSpot->id);
     expect($booking->status)->toBe(Booking::STATUS_CONFIRMED);
+
+    Mail::assertQueued(BookingConfirmed::class, function (BookingConfirmed $mail) use ($booking): bool {
+        return $mail->hasTo('jan@example.com')
+            && $mail->booking->is($booking);
+    });
+});
+
+test('booking confirmation email contains the reservation details', function () {
+    $campingSpot = CampingSpot::factory()->create([
+        'name' => 'Bosrand 12',
+    ]);
+
+    $booking = Booking::factory()
+        ->for($campingSpot)
+        ->create([
+            'guest_name' => 'Jan de Vries',
+            'guest_email' => 'jan@example.com',
+            'start_date' => '2026-07-01',
+            'end_date' => '2026-07-08',
+            'party_size' => 3,
+        ]);
+
+    $mailable = new BookingConfirmed($booking->load('campingSpot'));
+
+    $mailable->assertHasSubject(__('Booking confirmed'));
+    $mailable->assertSeeInHtml('Jan de Vries');
+    $mailable->assertSeeInHtml('Bosrand 12');
+    $mailable->assertSeeInHtml('2026-07-01');
+    $mailable->assertSeeInHtml('2026-07-08');
+});
+
+test('the booking confirmation page shows a quick overview', function () {
+    $campingSpot = CampingSpot::factory()->create([
+        'name' => 'Bosrand 12',
+        'price_per_night' => 45,
+    ]);
+
+    $booking = Booking::factory()
+        ->for($campingSpot)
+        ->create([
+            'guest_name' => 'Jan de Vries',
+            'guest_email' => 'jan@example.com',
+            'guest_phone' => '0612345678',
+            'start_date' => '2026-07-01',
+            'end_date' => '2026-07-08',
+            'party_size' => 3,
+        ]);
+
+    $response = $this->get(route('bookings.show', $booking));
+
+    $response
+        ->assertSuccessful()
+        ->assertSee(__('Booking overview'))
+        ->assertSee(__('Booking number'))
+        ->assertSee('Bosrand 12')
+        ->assertSee('Jan de Vries')
+        ->assertSee('jan@example.com')
+        ->assertSee('0612345678')
+        ->assertSee('2026-07-01')
+        ->assertSee('2026-07-08')
+        ->assertSee(__('Confirmation email sent to :email.', ['email' => 'jan@example.com']))
+        ->assertSee(__('Estimated total'));
 });
 
 test('the booking page lists available camping spots for the selected dates', function () {
@@ -105,11 +170,133 @@ test('a guest can open a camping spot detail page before reserving', function ()
         ->assertSee('Chalet Meerzicht')
         ->assertSee(__('Back to results'))
         ->assertSee(__('Total estimate'))
+        ->assertSee(__('Photo gallery'))
+        ->assertSee(__('Very good'))
+        ->assertSee(__('Review highlights'))
+        ->assertSee(__('Show all photos'))
+        ->assertSee('8,4')
         ->assertSee(asset('images/chalet2.png'), false)
+        ->assertSee(asset('images/chalet1.png'), false)
         ->assertSee('name="camping_spot_id" value="'.$campingSpot->id.'"', false)
         ->assertSee('name="guest_name"', false)
         ->assertSee('name="start_date" value="2026-07-02"', false)
         ->assertSee('name="end_date" value="2026-07-06"', false);
+});
+
+test('a guest can see booked and available dates on the camping spot calendar', function () {
+    Carbon::setTestNow('2026-06-01 10:00:00');
+
+    $campingSpot = CampingSpot::factory()->create([
+        'name' => 'Bosrand Kalender',
+        'price_per_night' => 45,
+    ]);
+
+    Booking::factory()
+        ->for($campingSpot)
+        ->create([
+            'start_date' => '2026-07-10',
+            'end_date' => '2026-07-12',
+        ]);
+
+    $response = $this->get(route('bookings.spots.show', [
+        'campingSpot' => $campingSpot,
+        'month' => '2026-07',
+        'party_size' => 2,
+    ]));
+
+    $response
+        ->assertSuccessful()
+        ->assertSee(__('Availability calendar'))
+        ->assertSee('July 2026')
+        ->assertSee('August 2026')
+        ->assertSee(__('Booked'))
+        ->assertSee(__('Available'))
+        ->assertSee(__('Reservation summary'))
+        ->assertSee(__('Choose arrival and departure dates to calculate the total.'))
+        ->assertSee('#availability-calendar', false)
+        ->assertSee('2026-07-10 - '.__('Booked'), false)
+        ->assertDontSee('start_date=2026-07-10', false)
+        ->assertSee(e(route('bookings.spots.show', [
+            'campingSpot' => $campingSpot,
+            'month' => '2026-08',
+            'party_size' => 2,
+        ]).'#availability-calendar'), false)
+        ->assertSee(e(route('bookings.spots.show', [
+            'campingSpot' => $campingSpot,
+            'month' => '2026-06',
+            'party_size' => 2,
+        ]).'#availability-calendar'), false)
+        ->assertSee(e(route('bookings.spots.show', [
+            'campingSpot' => $campingSpot,
+            'start_date' => '2026-07-13',
+            'party_size' => 2,
+        ])), false);
+
+    $response = $this->get(route('bookings.spots.show', [
+        'campingSpot' => $campingSpot,
+        'month' => '2026-07',
+        'start_date' => '2026-07-13',
+        'party_size' => 2,
+    ]));
+
+    $response
+        ->assertSuccessful()
+        ->assertSee(__('Selected arrival: :date. Choose a departure date to calculate the total.', ['date' => '2026-07-13']))
+        ->assertSee(__('Choose :date as departure date', ['date' => '2026-07-14']))
+        ->assertSee(e(route('bookings.spots.show', [
+            'campingSpot' => $campingSpot,
+            'start_date' => '2026-07-13',
+            'end_date' => '2026-07-14',
+            'party_size' => 2,
+        ])), false)
+        ->assertSee(e(route('bookings.spots.show', [
+            'campingSpot' => $campingSpot,
+            'start_date' => '2026-07-13',
+            'end_date' => '2026-08-02',
+            'party_size' => 2,
+        ])), false);
+
+    $response = $this->get(route('bookings.spots.show', [
+        'campingSpot' => $campingSpot,
+        'month' => '2026-07',
+        'start_date' => '2026-07-13',
+        'end_date' => '2026-07-16',
+        'party_size' => 2,
+    ]));
+
+    $response
+        ->assertSuccessful()
+        ->assertSee(__('Calculated total'))
+        ->assertSee('border-[#003b73] bg-[#003b73] text-white', false);
+});
+
+test('a completed calendar range starts a new selection when another day is clicked', function () {
+    Carbon::setTestNow('2026-06-01 10:00:00');
+
+    $campingSpot = CampingSpot::factory()->create([
+        'price_per_night' => 45,
+    ]);
+
+    $response = $this->get(route('bookings.spots.show', [
+        'campingSpot' => $campingSpot,
+        'month' => '2026-07',
+        'start_date' => '2026-07-15',
+        'end_date' => '2026-07-20',
+        'party_size' => 2,
+    ]));
+
+    $response
+        ->assertSuccessful()
+        ->assertSee(e(route('bookings.spots.show', [
+            'campingSpot' => $campingSpot,
+            'start_date' => '2026-07-27',
+            'party_size' => 2,
+        ]).'#availability-calendar'), false)
+        ->assertSee(e(route('bookings.spots.show', [
+            'campingSpot' => $campingSpot,
+            'start_date' => '2026-07-13',
+            'party_size' => 2,
+        ]).'#availability-calendar'), false);
 });
 
 test('the booking page filters camping spots by selected price range and capacity choices', function () {
@@ -193,6 +380,7 @@ test('a camping spot cannot be double booked for overlapping dates', function ()
 
 test('a booking can start on the day another booking ends', function () {
     Carbon::setTestNow('2026-06-01 10:00:00');
+    Mail::fake();
 
     $campingSpot = CampingSpot::factory()->create();
 
