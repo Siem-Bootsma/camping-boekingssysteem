@@ -35,7 +35,7 @@ class CampingSpot extends Model
         'capacity' => 4,
         'price_per_night' => 35,
         'accommodation_type' => self::TYPE_CAMPING_PITCH,
-        'image_path' => 'images/kampeerplek.png',
+        'image_path' => 'images/kampeerplek1.png',
         'is_active' => true,
     ];
 

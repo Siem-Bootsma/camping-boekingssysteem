@@ -83,6 +83,7 @@ class BookingController extends Controller
             'campingSpot' => $campingSpot,
             'hasAvailabilitySearch' => $hasDateRange,
             'isAvailable' => $isAvailable,
+            'spotReview' => $this->spotReview($campingSpot),
             'stayNights' => $stayNights,
         ]);
     }
@@ -107,6 +108,70 @@ class BookingController extends Controller
         }
 
         return $value;
+    }
+
+    /**
+     * @return array{
+     *     score: string,
+     *     review_count: string,
+     *     quote: string,
+     *     reviewer: string,
+     *     country: string,
+     *     initial: string,
+     *     best_score: string
+     * }
+     */
+    private function spotReview(CampingSpot $campingSpot): array
+    {
+        $reviews = [
+            [
+                'score' => '8,4',
+                'review_count' => '1.538',
+                'quote' => __('Clean, quiet and friendly campsite with plenty of space for a relaxed stay.'),
+                'reviewer' => 'Jan',
+                'country' => 'Nederland',
+                'initial' => 'J',
+                'best_score' => '8,8',
+            ],
+            [
+                'score' => '9,1',
+                'review_count' => '842',
+                'quote' => 'Heerlijk rustige plek met veel groen en genoeg privacy voor het hele gezin.',
+                'reviewer' => 'Sanne',
+                'country' => 'Nederland',
+                'initial' => 'S',
+                'best_score' => '9,3',
+            ],
+            [
+                'score' => '8,7',
+                'review_count' => '1.126',
+                'quote' => 'Mooie ruime plaats, fijne sfeer en de voorzieningen waren dichtbij.',
+                'reviewer' => 'Mark',
+                'country' => 'Belgie',
+                'initial' => 'M',
+                'best_score' => '9,0',
+            ],
+            [
+                'score' => '9,4',
+                'review_count' => '674',
+                'quote' => 'Alles was netjes verzorgd en de plek lag perfect voor een ontspannen weekend.',
+                'reviewer' => 'Lisa',
+                'country' => 'Duitsland',
+                'initial' => 'L',
+                'best_score' => '9,5',
+            ],
+            [
+                'score' => '8,9',
+                'review_count' => '963',
+                'quote' => 'Gezellige camping, schoon sanitair en genoeg ruimte rond de caravan.',
+                'reviewer' => 'Thomas',
+                'country' => 'Nederland',
+                'initial' => 'T',
+                'best_score' => '9,2',
+            ],
+        ];
+
+        return $reviews[crc32($campingSpot->name) % count($reviews)];
     }
 
     private function monthFilter(mixed $value): ?CarbonImmutable

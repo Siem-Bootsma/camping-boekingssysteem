@@ -36,7 +36,7 @@
                     App\Models\CampingSpot::TYPE_CHALET => 'images/chalet1.png',
                     App\Models\CampingSpot::TYPE_STATIC_CARAVAN => 'images/stacaravan1.png',
                     App\Models\CampingSpot::TYPE_TENT_PITCH => 'images/tentplaats1.png',
-                    default => 'images/kampeerplek.png',
+                    default => 'images/kampeerplek1.png',
                 },
                 match ($campingSpot->accommodation_type) {
                     App\Models\CampingSpot::TYPE_CHALET => 'images/chalet3.png',
@@ -45,7 +45,7 @@
                     default => 'images/Kampvuur-avond.jpg',
                 },
                 'images/Kampvuur-avond.jpg',
-                'images/kampeerplek.png',
+                'images/kampeerplek1.png',
             ])));
         @endphp
 
@@ -160,28 +160,28 @@
                             <div class="flex items-center justify-between gap-4 p-5">
                                 <div>
                                     <p class="text-2xl font-black text-[#17231a]">{{ __('Very good') }}</p>
-                                    <p class="mt-1 text-sm font-semibold text-[#526051]">1.538 {{ __('reviews') }}</p>
+                                    <p class="mt-1 text-sm font-semibold text-[#526051]">{{ $spotReview['review_count'] }} {{ __('reviews') }}</p>
                                 </div>
-                                <span class="rounded-xl bg-[#003b73] px-4 py-3 text-3xl font-black text-white" aria-label="{{ __('Review score') }}">8,4</span>
+                                <span class="rounded-xl bg-[#003b73] px-4 py-3 text-3xl font-black text-white" aria-label="{{ __('Review score') }}">{{ $spotReview['score'] }}</span>
                             </div>
 
                             <div class="border-t border-[#213126]/10 p-5">
                                 <p class="text-lg font-black text-[#17231a]">{{ __('Review highlights') }}</p>
                                 <blockquote class="mt-4 text-base font-semibold leading-6 text-[#17231a]">
-                                    “{{ __('Clean, quiet and friendly campsite with plenty of space for a relaxed stay.') }}”
+                                    “{{ $spotReview['quote'] }}”
                                 </blockquote>
                                 <div class="mt-6 flex items-center gap-3">
-                                    <span class="grid size-11 place-items-center rounded-full bg-[#f8c76b] text-sm font-black text-[#17231a]">J</span>
+                                    <span class="grid size-11 place-items-center rounded-full bg-[#f8c76b] text-sm font-black text-[#17231a]">{{ $spotReview['initial'] }}</span>
                                     <div>
-                                        <p class="font-black text-[#17231a]">Jan</p>
-                                        <p class="text-sm font-semibold text-[#526051]">Nederland</p>
+                                        <p class="font-black text-[#17231a]">{{ $spotReview['reviewer'] }}</p>
+                                        <p class="text-sm font-semibold text-[#526051]">{{ $spotReview['country'] }}</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="border-t border-[#213126]/10 p-5 text-center">
                                 <p class="text-xl font-black text-[#17231a]">{{ __('Best rated by guests') }}</p>
-                                <span class="mt-3 inline-flex rounded-xl border border-[#213126]/25 px-3 py-2 text-2xl font-black text-[#17231a]">8,8</span>
+                                <span class="mt-3 inline-flex rounded-xl border border-[#213126]/25 px-3 py-2 text-2xl font-black text-[#17231a]">{{ $spotReview['best_score'] }}</span>
                             </div>
                         </div>
 

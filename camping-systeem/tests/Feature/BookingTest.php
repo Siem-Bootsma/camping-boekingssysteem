@@ -174,13 +174,19 @@ test('a guest can open a camping spot detail page before reserving', function ()
         ->assertSee(__('Very good'))
         ->assertSee(__('Review highlights'))
         ->assertSee(__('Show all photos'))
-        ->assertSee('8,4')
+        ->assertSee('9,4')
+        ->assertSee('674 beoordelingen')
+        ->assertSee('Alles was netjes verzorgd')
+        ->assertSee('Lisa')
+        ->assertSee('Duitsland')
+        ->assertSee('9,5')
         ->assertSee(asset('images/chalet2.png'), false)
         ->assertSee(asset('images/chalet1.png'), false)
         ->assertSee('name="camping_spot_id" value="'.$campingSpot->id.'"', false)
         ->assertSee('name="guest_name"', false)
         ->assertSee('name="start_date" value="2026-07-02"', false)
-        ->assertSee('name="end_date" value="2026-07-06"', false);
+        ->assertSee('name="end_date" value="2026-07-06"', false)
+        ->assertViewHas('spotReview', fn (array $spotReview): bool => $spotReview['reviewer'] === 'Lisa');
 });
 
 test('a guest can see booked and available dates on the camping spot calendar', function () {

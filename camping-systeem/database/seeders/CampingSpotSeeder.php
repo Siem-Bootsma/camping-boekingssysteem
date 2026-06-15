@@ -136,7 +136,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 4,
                 'price_per_night' => 37.50,
                 'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
-                'image_path' => 'images/kampeerplek.png',
+                'image_path' => 'images/kampeerplek1.png',
             ],
             [
                 'name' => 'Kampeerplek Plek B',
@@ -152,7 +152,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 5,
                 'price_per_night' => 42.50,
                 'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
-                'image_path' => 'images/kampeerplek.png',
+                'image_path' => 'images/kampeerplek1.png',
             ],
             [
                 'name' => 'Kampeerplek Plek D',
@@ -168,7 +168,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 6,
                 'price_per_night' => 49,
                 'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
-                'image_path' => 'images/kampeerplek.png',
+                'image_path' => 'images/kampeerplek1.png',
             ],
         ];
 
