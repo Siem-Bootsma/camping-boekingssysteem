@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateDashboardBookingRequest;
 use App\Models\Booking;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
@@ -24,5 +26,23 @@ class DashboardController extends Controller
             'bookings' => $bookings,
             'customers' => $customers,
         ]);
+    }
+
+    public function update(UpdateDashboardBookingRequest $request, Booking $booking): RedirectResponse
+    {
+        $booking->update($request->validated());
+
+        return redirect()
+            ->route('dashboard', ['edit_booking' => $booking])
+            ->with('dashboard_status', __('Reservation updated.'));
+    }
+
+    public function destroy(Booking $booking): RedirectResponse
+    {
+        $booking->delete();
+
+        return redirect()
+            ->route('dashboard')
+            ->with('dashboard_status', __('Reservation cancelled.'));
     }
 }

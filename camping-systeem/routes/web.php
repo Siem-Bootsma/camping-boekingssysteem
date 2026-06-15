@@ -27,6 +27,9 @@ Route::middleware(SetLocale::class)->group(function (): void {
 });
 
 Route::middleware(SetLocale::class)->group(function (): void {
-    Route::get('/dashboard', [DashboardController::class, 'create'])->middleware('auth')->name('dashboard');
-
+    Route::middleware('auth')->group(function (): void {
+        Route::get('/dashboard', [DashboardController::class, 'create'])->name('dashboard');
+        Route::patch('/dashboard/bookings/{booking}', [DashboardController::class, 'update'])->name('dashboard.bookings.update');
+        Route::delete('/dashboard/bookings/{booking}', [DashboardController::class, 'destroy'])->name('dashboard.bookings.destroy');
+    });
 });
