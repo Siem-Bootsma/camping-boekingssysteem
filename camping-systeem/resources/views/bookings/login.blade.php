@@ -63,9 +63,6 @@
                         <span>{{ __('Onthoud mij') }}</span>
                     </label>
 
-                    @if (Route::has('wachtwoord.vergeten'))
-                  <a href="{{ route('wachtwoord.vergeten') }}" class="text-sm text-[#264f3a] hover:underline">{{ __('Wachtwoord vergeten?') }}</a>
-                    @endif
                 </div>
 
                 <button type="submit" class="w-full mt-1 bg-[#264f3a] text-white font-semibold py-3 rounded-lg hover:bg-[#17231a] transition-shadow shadow">{{ __('Inloggen') }}</button>
