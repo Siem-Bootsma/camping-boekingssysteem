@@ -15,7 +15,7 @@ class CreateBooking
             'status' => Booking::STATUS_CONFIRMED,
         ]);
 
-        Mail::to($booking->guest_email)->send(
+        Mail::to($booking->guest_email)->queue(
             (new BookingConfirmed($booking->load('campingSpot')))->locale(app()->getLocale())
         );
 

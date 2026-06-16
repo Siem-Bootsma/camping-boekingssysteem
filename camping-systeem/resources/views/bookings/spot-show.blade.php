@@ -156,37 +156,9 @@
                     </article>
 
                     <aside class="grid gap-4 lg:sticky lg:top-6 lg:self-start">
-                        <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-[#213126]/10">
-                            <div class="flex items-center justify-between gap-4 p-5">
-                                <div>
-                                    <p class="text-2xl font-black text-[#17231a]">{{ __('Very good') }}</p>
-                                    <p class="mt-1 text-sm font-semibold text-[#526051]">{{ $spotReview['review_count'] }} {{ __('reviews') }}</p>
-                                </div>
-                                <span class="rounded-xl bg-[#003b73] px-4 py-3 text-3xl font-black text-white" aria-label="{{ __('Review score') }}">{{ $spotReview['score'] }}</span>
-                            </div>
-
-                            <div class="border-t border-[#213126]/10 p-5">
-                                <p class="text-lg font-black text-[#17231a]">{{ __('Review highlights') }}</p>
-                                <blockquote class="mt-4 text-base font-semibold leading-6 text-[#17231a]">
-                                    “{{ $spotReview['quote'] }}”
-                                </blockquote>
-                                <div class="mt-6 flex items-center gap-3">
-                                    <span class="grid size-11 place-items-center rounded-full bg-[#f8c76b] text-sm font-black text-[#17231a]">{{ $spotReview['initial'] }}</span>
-                                    <div>
-                                        <p class="font-black text-[#17231a]">{{ $spotReview['reviewer'] }}</p>
-                                        <p class="text-sm font-semibold text-[#526051]">{{ $spotReview['country'] }}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="border-t border-[#213126]/10 p-5 text-center">
-                                <p class="text-xl font-black text-[#17231a]">{{ __('Best rated by guests') }}</p>
-                                <span class="mt-3 inline-flex rounded-xl border border-[#213126]/25 px-3 py-2 text-2xl font-black text-[#17231a]">{{ $spotReview['best_score'] }}</span>
-                            </div>
-                        </div>
-
                         <div class="rounded-2xl bg-white p-5 shadow-lg ring-1 ring-[#213126]/10">
-                            <p class="text-xs font-black uppercase tracking-[0.18em] text-[#6f4b25]">{{ __('Total estimate') }}</p>
+                            <p class="text-xs font-black uppercase tracking-[0.18em] text-[#6f4b25]">{{ __('Your reservation') }}</p>
+                            <p class="mt-1 text-lg font-black text-[#17231a]">{{ $campingSpot->name }}</p>
                             <p class="mt-2 text-3xl font-black text-[#17231a]">
                                 {{ $totalPrice ? Illuminate\Support\Number::currency($totalPrice, in: 'EUR', locale: app()->getLocale()) : Illuminate\Support\Number::currency($pricePerNight, in: 'EUR', locale: app()->getLocale()) }}
                             </p>
@@ -198,7 +170,7 @@
                                 <input type="hidden" name="camping_spot_id" value="{{ $campingSpot->id }}">
 
                                 <div class="rounded-2xl bg-[#eef4ff] p-4 ring-1 ring-[#003b73]/10">
-                                    <p class="text-xs font-black uppercase tracking-[0.16em] text-[#003b73]">{{ __('Reservation summary') }}</p>
+                                    <p class="text-xs font-black uppercase tracking-[0.16em] text-[#003b73]">{{ __('Reservation details') }}</p>
 
                                     @if ($stayNights && $totalPrice)
                                         <dl class="mt-3 grid gap-3 text-sm font-semibold text-[#526051]">
@@ -213,6 +185,10 @@
                                             <div class="flex items-center justify-between gap-3">
                                                 <dt>{{ __('Stay') }}</dt>
                                                 <dd class="font-black text-[#17231a]">{{ __(':count nights', ['count' => $stayNights]) }}</dd>
+                                            </div>
+                                            <div class="flex items-center justify-between gap-3">
+                                                <dt>{{ __('Guests') }}</dt>
+                                                <dd class="font-black text-[#17231a]">{{ __(':count guests', ['count' => old('party_size', request('party_size', 2))]) }}</dd>
                                             </div>
                                             <div class="flex items-center justify-between gap-3 border-t border-[#003b73]/10 pt-3">
                                                 <dt>{{ __('Calculated total') }}</dt>
@@ -302,6 +278,35 @@
                                     {{ __('Reserve') }}
                                 </button>
                             </form>
+                        </div>
+
+                        <div class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-[#213126]/10">
+                            <div class="flex items-center justify-between gap-4 p-5">
+                                <div>
+                                    <p class="text-2xl font-black text-[#17231a]">{{ __('Very good') }}</p>
+                                    <p class="mt-1 text-sm font-semibold text-[#526051]">{{ $spotReview['review_count'] }} {{ __('reviews') }}</p>
+                                </div>
+                                <span class="rounded-xl bg-[#003b73] px-4 py-3 text-3xl font-black text-white" aria-label="{{ __('Review score') }}">{{ $spotReview['score'] }}</span>
+                            </div>
+
+                            <div class="border-t border-[#213126]/10 p-5">
+                                <p class="text-lg font-black text-[#17231a]">{{ __('Review highlights') }}</p>
+                                <blockquote class="mt-4 text-base font-semibold leading-6 text-[#17231a]">
+                                    “{{ $spotReview['quote'] }}”
+                                </blockquote>
+                                <div class="mt-6 flex items-center gap-3">
+                                    <span class="grid size-11 place-items-center rounded-full bg-[#f8c76b] text-sm font-black text-[#17231a]">{{ $spotReview['initial'] }}</span>
+                                    <div>
+                                        <p class="font-black text-[#17231a]">{{ $spotReview['reviewer'] }}</p>
+                                        <p class="text-sm font-semibold text-[#526051]">{{ $spotReview['country'] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-[#213126]/10 p-5 text-center">
+                                <p class="text-xl font-black text-[#17231a]">{{ __('Best rated by guests') }}</p>
+                                <span class="mt-3 inline-flex rounded-xl border border-[#213126]/25 px-3 py-2 text-2xl font-black text-[#17231a]">{{ $spotReview['best_score'] }}</span>
+                            </div>
                         </div>
                     </aside>
 

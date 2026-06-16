@@ -49,6 +49,7 @@ test('a guest can book an available camping spot', function () {
 test('booking confirmation email contains the reservation details', function () {
     $campingSpot = CampingSpot::factory()->create([
         'name' => 'Bosrand 12',
+        'price_per_night' => 45,
     ]);
 
     $booking = Booking::factory()
@@ -56,18 +57,32 @@ test('booking confirmation email contains the reservation details', function () 
         ->create([
             'guest_name' => 'Jan de Vries',
             'guest_email' => 'jan@example.com',
+            'guest_phone' => '0612345678',
             'start_date' => '2026-07-01',
             'end_date' => '2026-07-08',
             'party_size' => 3,
+            'notes' => 'We komen rond 15:00 aan.',
         ]);
 
     $mailable = new BookingConfirmed($booking->load('campingSpot'));
 
     $mailable->assertHasSubject(__('Booking confirmed'));
     $mailable->assertSeeInHtml('Jan de Vries');
+    $mailable->assertSeeInHtml('jan@example.com');
+    $mailable->assertSeeInHtml('0612345678');
     $mailable->assertSeeInHtml('Bosrand 12');
     $mailable->assertSeeInHtml('2026-07-01');
     $mailable->assertSeeInHtml('2026-07-08');
+    $mailable->assertSeeInHtml(__('Booking number'));
+    $mailable->assertSeeInHtml(__('Stay'));
+    $mailable->assertSeeInHtml(__('Price per night'));
+    $mailable->assertSeeInHtml(__('Total'));
+    $mailable->assertDontSeeInHtml(__('Estimated total'));
+    $mailable->assertSeeInHtml('We komen rond 15:00 aan.');
+    $mailable->assertSeeInHtml(__('Request cancellation'));
+    $mailable->assertSeeInHtml(__('Need to cancel? Send us a cancellation request using the button below. We will confirm the cancellation by email.'));
+    $mailable->assertDontSeeInHtml(__('Thanks,'));
+    $mailable->assertDontSeeInHtml(config('app.name'));
 });
 
 test('the booking confirmation page shows a quick overview', function () {
@@ -93,6 +108,7 @@ test('the booking confirmation page shows a quick overview', function () {
         ->assertSuccessful()
         ->assertSee(__('Booking overview'))
         ->assertSee(__('Booking number'))
+        ->assertSee(__('Your reservation'))
         ->assertSee('Bosrand 12')
         ->assertSee('Jan de Vries')
         ->assertSee('jan@example.com')
@@ -169,7 +185,7 @@ test('a guest can open a camping spot detail page before reserving', function ()
         ->assertSuccessful()
         ->assertSee('Chalet Meerzicht')
         ->assertSee(__('Back to results'))
-        ->assertSee(__('Total estimate'))
+        ->assertSee(__('Your reservation'))
         ->assertSee(__('Photo gallery'))
         ->assertSee(__('Very good'))
         ->assertSee(__('Review highlights'))
@@ -217,7 +233,7 @@ test('a guest can see booked and available dates on the camping spot calendar', 
         ->assertSee('August 2026')
         ->assertSee(__('Booked'))
         ->assertSee(__('Available'))
-        ->assertSee(__('Reservation summary'))
+        ->assertSee(__('Your reservation'))
         ->assertSee(__('Choose arrival and departure dates to calculate the total.'))
         ->assertSee('#availability-calendar', false)
         ->assertSee('2026-07-10 - '.__('Booked'), false)
