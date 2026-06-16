@@ -80,7 +80,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 6,
                 'price_per_night' => 109,
                 'accommodation_type' => CampingSpot::TYPE_CHALET,
-                'image_path' => 'images/chalet1.png',
+                'image_path' => 'images/chalet4.png',
             ],
             [
                 'name' => 'Chalet Boslicht',
@@ -144,7 +144,7 @@ class CampingSpotSeeder extends Seeder
                 'capacity' => 6,
                 'price_per_night' => 45,
                 'accommodation_type' => CampingSpot::TYPE_CAMPING_PITCH,
-                'image_path' => 'images/Kampvuur-avond.jpg',
+                'image_path' => 'images/kampeerplek2.png',
             ],
             [
                 'name' => 'Kampeerplek Plek C',

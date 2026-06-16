@@ -35,6 +35,7 @@ test('authenticated users can see bookings and customer details on the dashboard
         ->assertSee('Klanten')
         ->assertSee('Jan de Vries')
         ->assertSee('jan@example.com')
+        ->assertSee('href="mailto:jan@example.com"', false)
         ->assertSee('0612345678')
         ->assertSee('Bosrand 12')
         ->assertSee('01-07-2026')
@@ -43,6 +44,8 @@ test('authenticated users can see bookings and customer details on the dashboard
         ->assertDontSee(__('Collapse'))
         ->assertViewHas('bookings', fn ($bookings): bool => $bookings->first()->relationLoaded('campingSpot'))
         ->assertViewHas('customers', fn ($customers): bool => $customers->first()->guest_email === 'jan@example.com');
+
+    expect(substr_count($response->getContent(), 'href="mailto:jan@example.com"'))->toBe(2);
 });
 
 test('authenticated users can open edit controls for a booking', function () {

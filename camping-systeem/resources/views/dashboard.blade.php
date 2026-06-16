@@ -82,7 +82,11 @@
                             <tr class="align-top">
                                 <td class="px-4 py-4">
                                     <p class="font-black text-[#17231a]">{{ $booking->guest_name }}</p>
-                                    <p class="mt-1 text-[#6f4b25]">{{ $booking->guest_email }}</p>
+                                    <p class="mt-1">
+                                        <a href="mailto:{{ $booking->guest_email }}" class="font-semibold text-[#003b73] underline decoration-[#003b73]/30 underline-offset-4 transition hover:text-[#17231a] hover:decoration-[#17231a] focus:outline-none focus:ring-2 focus:ring-[#003b73]/20">
+                                            {{ $booking->guest_email }}
+                                        </a>
+                                    </p>
                                     <p class="text-[#6f4b25]">{{ $booking->guest_phone ?: __('No phone number') }}</p>
                                 </td>
                                 <td class="px-4 py-4 font-semibold text-[#17231a]">
@@ -197,7 +201,11 @@
                         <dl class="mt-4 grid gap-3 text-sm">
                             <div>
                                 <dt class="font-black uppercase tracking-[0.16em] text-[#6f4b25]">{{ __('Email') }}</dt>
-                                <dd class="mt-1 font-semibold text-[#17231a]">{{ $customer->guest_email }}</dd>
+                                <dd class="mt-1">
+                                    <a href="mailto:{{ $customer->guest_email }}" class="font-semibold text-[#003b73] underline decoration-[#003b73]/30 underline-offset-4 transition hover:text-[#17231a] hover:decoration-[#17231a] focus:outline-none focus:ring-2 focus:ring-[#003b73]/20">
+                                        {{ $customer->guest_email }}
+                                    </a>
+                                </dd>
                             </div>
                             <div>
                                 <dt class="font-black uppercase tracking-[0.16em] text-[#6f4b25]">{{ __('Phone') }}</dt>

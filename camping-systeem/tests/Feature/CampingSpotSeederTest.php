@@ -22,6 +22,11 @@ test('camping spot seeder creates enough spots for every accommodation type', fu
                 ->and(public_path($imagePath))->toBeFile();
         });
 
+    expect(CampingSpot::query()->pluck('image_path')->all())->toContain(
+        'images/chalet4.png',
+        'images/kampeerplek2.png',
+    );
+
     expect(CampingSpot::query()->pluck('name')->all())->toEqualCanonicalizing([
         'Tentplaats Bosrand',
         'Tentplaats Vuurveld',
